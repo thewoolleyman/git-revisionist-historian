@@ -4,13 +4,8 @@ buildscript {
         kotlin_argparser_version = '2.0.3'
     }
 
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
-
     dependencies {
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -19,5 +14,24 @@ plugins {
 }
 
 dependencies {
+    repositories {
+        jcenter()
+    }
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "com.xenomachina:kotlin-argparser:$kotlin_argparser_version"
+}
+
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin/'
+//    test.java.srcDirs += 'src/test/kotlin/'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.thewoolleyweb.grh.MainKt'
+        )
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }

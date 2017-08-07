@@ -94,3 +94,8 @@ Config file format
     1. Applying specified branches (with `reset --hard` if they already exist)
 1. Continue until all incrementCommits are successfully processed.
 1. Push (`--force-with-lease` for branches) all modified tags and branches.
+
+# Building and Running
+
+* `./gradlew clean build jar`
+* `java -jar build/libs/git-revisionist-historian.jar`
