@@ -1,82 +1,96 @@
 # git-revisionist-historian
 
-Manages updates to example/instructional repositories which are built up from multiple incremental changes.
+Manages updates to example/instructional repositories which are built up from multiple incremental changes, and
+automatically associates tags and/or branches with them based on unique strings in the commit message.
 
-An existing main "***branchToRevise***" is built up from changes which consists of multiple "***incrementBranches***"
-being consecutively merged in.
+For example, when **`git rh`** is run against the **`solution`** branch of an instructional repo, a commit which
+introduces the fifth consecutive feature or piece of functionality would have the following automatically performed:
+* The **prior commit (HEAD^)**, having a commit message of **"feature4"**, would be tagged **"feature5-start"**
+* The commit itself, with a commit message of **"feature5"** would be **tagged "feature5-finish"**, and also
+  have a **"feature5" branch** pointed at it.
 
-Each consecutive branch merge will be tagged with "<incrementBranch name>-before" and "<incrementBranch name>-after" tags.
+So, imagine you needed to **update a feature introduced in an earlier commit**, for example in **"feature2"**.  You can
+use `git rebase --interactive` to change it, and have all the subsequent commits/features rebased on top of it, then
+`git push --force-with-lease`.
 
-If any of the ***incrementBranches*** needs to be updated, it can be checked out and modified as needed, either by
-adding new commits to the branch, or by using `commit --amend` or `rebase --interactive` to change existing commits
-to the branch, ***but not merging it back into the branchToRevise***.
+**BUT** this now means all the old **"...-start"** and **"...-finish"** tags and branches are invalid,
+pointing to old orphaned SHAs that are no longer on the `solution` branch.
 
-Instead of manually merging your changes, run the **`git rh begin --config <.../grh-config.json>`**
-command.  This will rebuild a ***temporary version*** (with a **`grh-tmp-`** prefix)
-of your ***branchToRevise*** from scratch, by ***automatically rebasing and merging in*** all of the consecutive
-incrementBranches, ***including any you have modified,***, and re-creating the
-"-before" and "-after" tags.
+This problem is solved by running **`git rh`** - it will **automatically recreate all the specified tags and branches
+you need based on the commit messages**, and **automatically do all the necessary `--force-with-lease` git pushes**
+to the specified git remote server. 
 
-If there are any rebase conflicts while processing the subsequent incrementBranches, `git rh` will pause,
-and give you the opportunity to resolve the conflicts.  When you have finished and staged the conflict resolution(s),
-run **`git rh continue`** to continue processing the remaining commits on the current and subsequent incrementBranches.
+NOTE: Both tags and branches are supported, because the git support in various tools/IDEs may make it easier
+for students working with the example/instructional repo to compare tags vs. branches.  Specifically, in
+IntelliJ Idea, there is a keymap for single-command "Compare with Branch...", but compare a local state with a 
+tag requires going through multiple steps.
 
-Once all the ***incrementBranches*** have been applied to the temporary version of the ***branchToRevise***,
-`git rh` will pause, and give you the opportunity to review the new commit history of ***branchToRevise***,
-run any tests, etc.  There will be temporary versions of all the incrementBranches as well as all "-before" and "-after"
-tags.  Once you are satisfied the revisions are good, run **`git rh finalize`**, which will `reset --hard` all the
-current branches/tags with the new temporary ones, `git push --force-with-lease` all the new ones to the remote repo,
-then clean up all the temporary ones, leaving you in a clean state for the next time you need to `git rh start`.
-
-
-# Overview
+# Implementation Overview
 
 ## CLI
 
 * Executable CLI tool: `git-rh` - will act as `git rh` extension when added to path.
 * Usage (run from writable clone of repo which will be revised):
-  * `git rh begin --config grh-config.json` - Begin a new revision session (fails if one is already in progress).
-    `--config` can point to local path or http URL. 
-  * `git rh continue` - to continue after a pause to resolve a rebase conflict when updating an incrementBranch
-  * `git rh finalize` - to apply and push the new state of all branches/tags to the remote repo.  
-  * `git rh reset` - to delete any existing in-progress state and/or temporary branches.
+  * `git rh [--dry-run|-n] [--no-push] --config|-c grh-config.json` - When run within a checkout of a git repo, performs the revisions session,
+    and automatically forces the update and push of all created/modified tags and branches.
+* `--config|-c` can point to a config file via a relative path in the repository, an external path, or at an HTTP URL.
+* `--dry-run|-n` will print out progress but not actually make any changes, neither local nor remote.
+* `--no-push` will make all changes to the local clone of the repo, but not push them to the origin.  Note that since
+  all local changes are essentially idempotent because they are forced, this option can be used to review changes
+  locally without pushing them, then run again without this option to push them. 
+* `git rh` will fail and refuse to run if:
+  * You are not in a git repo
+  * There are any uncommitted changes in the working copy.
+  * Any of the `branches` entries are the same as the `branchToRevise`
+* `git rh` will also fail **after making local changes** if it does not have permissions to force push to the remote.
 
 ## Config File
 
-* Config file format (`remote` is optional, defaults to `origin`):
-  ```json
-  {
-    "remote": "origin",
-    "branchToRevise": "master",
-    "incrementBranches": [
-      "initial-commit",
-      "more-changes",
-      "latest-changes"
-    ]
-  }
-  ```
+Config file format
+
+* `remote`: optional, string, defaults to `origin`
+* `branchToRevise`: required, string
+* `incrementCommits`: required, array of `incrementCommit` objects, which consist of:
+  * `message`: required, regular expression
+  * `tags`: optional, array of strings
+  * `branches`: optional, array of strings
+
+```json
+{
+  "remote": "origin",
+  "branchToRevise": "solution",
+  "incrementCommits": [
+    {
+      "message": "initial commit",
+      "tags": ["feature1-start"],
+    },
+    {
+      "message": "first feature",
+      "tags": ["feature1-finish","feature2-start"],
+      "branches": ["feature1"] 
+    },
+    {
+      "message": "second feature",
+      "tags": ["feature2-finish", "feature3-start"],
+      "branches": ["feature2"] 
+    },
+    {
+      "message": "third feature",
+      "tags": ["feature3-finish"],
+      "branches": ["feature3"] 
+    }
+  ]
+}
+```
 
 ## Workflow
 
-1. `git rh begin --config path/to/grh-config.json` - begin process, and create internal state-tracking
+1. `git rh --config path/to/grh-config.json` - begin process, and create internal state-tracking
    file at `~/.grh-state.json`
-    * Fail with an instruction to run `git rh reset` if any `grh-tmp-*` branches or state file already exists.
-1. Create new temp branch `grh-tmp-<branchToRevise>`
-1. Consecutively apply all incrementBranches by
-    1. Applying tag `grh-tmp-<incrementBranchName>-before`
-    1. Checking out a temp branch at `grh-tmp-<incrementBranchName>`
-    1. Rebasing it onto `grh-tmp-<branchToRevise>` with:
-      `git rebase --onto grh-tmp-<branchToRevise> <branchToRevise> grh-tmp-<incrementBranchName>`
-    1. Merging it into `grh-tmp-<branchToRevise>`
-    1. Applying tag `grh-tmp-<incrementBranchName>-after`
-1. If any conflicts are encountered when rebasing, record the current branch in the state file, then pause and allow
-   user to resolve the conflicts, stage the changes, then run `git rh continue`
-1. Continue until all incrementBranches are successfully rebased and merged.
-1. Pause to let user review/test all the temporary state.
-1. When user runs `git rh finalize`:
-    1. `git reset --hard` `branchToRevise` and all `incrementBranches` to the corresponding `grh-tmp-*` branch's
-      revisions.
-    1. `git tag --force` all existing `*-before` and `*-after` tags to the corresponding `grh-tmp-*` revisions.
-    1. `git push --force-with-lease` `branchToRevise` and all `incrementBranches` to the specified remote.
-    1. `git push tags` to the specified remote. 
-    1. Delete all `grh-tmp` branches and `~/.grh-state.json` state-tracking file. 
+1. Perform pre-run validations, fail if any do not pass
+1. Fetch specified remote to get latest state.
+1. Consecutively process all incrementCommits by
+    1. Applying specified tags (with `--force` in case they already exist)
+    1. Applying specified branches (with `reset --hard` if they already exist)
+1. Continue until all incrementCommits are successfully processed.
+1. Push (`--force-with-lease` for branches) all modified tags and branches.
