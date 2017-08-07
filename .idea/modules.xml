@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/git-revisionist-historian.iml" filepath="$PROJECT_DIR$/.idea/git-revisionist-historian.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/git-revisionist-historian_main.iml" filepath="$PROJECT_DIR$/.idea/modules/git-revisionist-historian_main.iml" group="git-revisionist-historian" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/git-revisionist-historian_test.iml" filepath="$PROJECT_DIR$/.idea/modules/git-revisionist-historian_test.iml" group="git-revisionist-historian" />
     </modules>
   </component>
 </project>
