@@ -1,6 +1,7 @@
 buildscript {
     ext {
-        kotlin_version = '1.1.3'
+        kotlin_version = '1.1.3-2'
+        kotlintest_version = '2.0.5'
         kotlin_argparser_version = '2.0.3'
     }
 
@@ -20,11 +21,12 @@ dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "com.xenomachina:kotlin-argparser:$kotlin_argparser_version"
+    testCompile "io.kotlintest:kotlintest:$kotlintest_version"
 }
 
 sourceSets {
     main.java.srcDirs += 'src/main/kotlin/'
-//    test.java.srcDirs += 'src/test/kotlin/'
+    test.java.srcDirs += 'src/test/kotlin/'
 }
 
 jar {
@@ -34,4 +36,10 @@ jar {
         )
     }
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+    }
 }

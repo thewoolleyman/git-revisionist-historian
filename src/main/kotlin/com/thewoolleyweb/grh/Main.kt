@@ -2,8 +2,8 @@ package com.thewoolleyweb.grh
 
 import com.xenomachina.argparser.ArgParser
 
-fun main(args: Array<String>) {
-    val args: Args = Args(ArgParser(args))
+fun main(arguments: Array<String>) {
+    val args: Args = Args(ArgParser(arguments))
     System.out.println("""Config File: ${args.configFile}""")
 }
 
