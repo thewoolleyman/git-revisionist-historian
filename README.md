@@ -33,7 +33,7 @@ tag requires going through multiple steps.
 * Usage (run from writable clone of repo which will be revised):
   * `git rh [--dry-run|-n] [--no-push] --config|-c grh-config.json` - When run within a checkout of a git repo, performs the revisions session,
     and automatically forces the update and push of all created/modified tags and branches.
-* `--config|-c` can point to a config file via a relative path in the repository, an external path, or at an HTTP URL.
+* `--config|-c` can point to a config file via a relative path in the repository, an external path, or at an HTTP URL.  Default location is `./grh-config.json`.
 * `--dry-run|-n` will print out progress but not actually make any changes, neither local nor remote.
 * `--no-push` will make all changes to the local clone of the repo, but not push them to the origin.  Note that since
   all local changes are essentially idempotent because they are forced, this option can be used to review changes
