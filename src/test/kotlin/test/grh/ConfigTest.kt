@@ -28,8 +28,8 @@ class ConfigTest: StringSpec() {
         val rawValue: StringBuilder = StringBuilder(jsonText)
 
         "works" {
-            val jsonObject: JsonObject = load(rawValue) as JsonObject
-            jsonObject.string("remote") shouldBe "origin"
+            val grhConfig = load(rawValue)
+            grhConfig.remote shouldBe "origin"
         }
     }
 }
