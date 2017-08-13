@@ -63,7 +63,7 @@ then clean up all the temporary ones, leaving you in a clean state for the next 
 ## Config File
 
 * Config file format (`remote` is optional, defaults to `origin`):
-  ```json
+  ```JSON
   {
     "remote": "origin",
     "branchToRevise": "master",

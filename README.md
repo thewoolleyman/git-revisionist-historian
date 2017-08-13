@@ -57,7 +57,7 @@ Config file format
   * `tags`: optional, array of strings
   * `branches`: optional, array of strings
 
-```json
+```JSON
 {
   "remote": "origin",
   "branchToRevise": "solution",
