@@ -103,6 +103,7 @@ Config file format
 
 # Downloading
 
+* (Coming soon): Concourse resource
 * (Coming soon): Install via Homebrew
 * (Coming soon): Install via Maven/Gradle
 * (Coming soon): Install via rpm/dpkg
