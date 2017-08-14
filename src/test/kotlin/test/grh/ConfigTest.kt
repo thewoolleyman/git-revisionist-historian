@@ -1,8 +1,6 @@
 package test.grh
 
 import com.thewoolleyweb.grh.config.load
-import com.beust.klaxon.JsonObject
-import com.beust.klaxon.string
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec
 
@@ -30,6 +28,9 @@ class ConfigTest: StringSpec() {
         "works" {
             val grhConfig = load(rawValue)
             grhConfig.remote shouldBe "origin"
+            val incrementCommits = grhConfig.incrementCommits
+            val incrementCommit = incrementCommits[0]
+            incrementCommit.message shouldBe "initial commit"
         }
     }
 }
