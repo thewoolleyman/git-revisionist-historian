@@ -4,9 +4,9 @@ import com.thewoolleyweb.grh.config.load
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec
 
-class ConfigTest: StringSpec() {
-    init {
-        val jsonText = """
+class ConfigTest : StringSpec() {
+  init {
+    val jsonText = """
             |{
             |  "remote": "origin",
             |  "branchToRevise": "solution",
@@ -19,19 +19,19 @@ class ConfigTest: StringSpec() {
             |  ]
             |}
         """.trimMargin()
-        val rawValue: StringBuilder = StringBuilder(jsonText)
-        val grhConfig = load(rawValue)
+    val rawValue: StringBuilder = StringBuilder(jsonText)
+    val grhConfig = load(rawValue)
 
-        "origin" {
-            grhConfig.remote shouldBe "origin"
-        }
-
-        "incrementCommits" {
-            grhConfig.remote shouldBe "origin"
-            val incrementCommits = grhConfig.incrementCommits
-            val incrementCommit = incrementCommits[0]
-            incrementCommit.message shouldBe "first feature"
-            incrementCommit.tags shouldBe listOf("feature1-finish","feature2-start")
-        }
+    "origin" {
+      grhConfig.remote shouldBe "origin"
     }
+
+    "incrementCommits" {
+      grhConfig.remote shouldBe "origin"
+      val incrementCommits = grhConfig.incrementCommits
+      val incrementCommit = incrementCommits[0]
+      incrementCommit.message shouldBe "first feature"
+      incrementCommit.tags shouldBe listOf("feature1-finish", "feature2-start")
+    }
+  }
 }

@@ -6,12 +6,12 @@ import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec
 
 class ArgsTest : StringSpec() {
-    init {
-        val arguments = arrayOf("-c", "./config.json")
-        val args = Args(ArgParser(arguments))
-        "can set config file" {
-            args.configFile shouldBe "./config.json"
-        }
-
+  init {
+    val arguments = arrayOf("-c", "./config.json")
+    val args = Args(ArgParser(arguments))
+    "can set config file" {
+      args.configFile shouldBe "./config.json"
     }
+
+  }
 }
