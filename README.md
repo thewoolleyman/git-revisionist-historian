@@ -54,8 +54,8 @@ Config file format
 * `branchToRevise`: required, string
 * `incrementCommits`: required, array of `incrementCommit` objects, which consist of:
   * `message`: required, regular expression
-  * `tags`: optional, array of strings
-  * `branches`: optional, array of strings
+  * `tags`: required, array of strings (may be empty)
+  * `branches`: required, array of strings (may be empty)
 
 ```JSON
 {
@@ -80,6 +80,11 @@ Config file format
       "message": "third feature",
       "tags": ["feature3-finish"],
       "branches": ["feature3"] 
+    },
+    {
+      "message": "in-progress feature",
+      "tags": [],
+      "branches": [] 
     }
   ]
 }

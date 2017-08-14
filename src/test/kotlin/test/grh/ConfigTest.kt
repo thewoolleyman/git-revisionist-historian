@@ -15,6 +15,11 @@ class ConfigTest : StringSpec() {
             |      "message": "first feature",
             |      "tags": ["feature1-finish","feature2-start"],
             |      "branches": ["feature1","another-branch"]
+            |    },
+            |    {
+            |      "message": "in-progress feature",
+            |      "tags": [],
+            |      "branches": []
             |    }
             |  ]
             |}
@@ -22,16 +27,26 @@ class ConfigTest : StringSpec() {
     val rawValue: StringBuilder = StringBuilder(jsonText)
     val grhConfig = load(rawValue)
 
-    "origin" {
+    "remote" {
       grhConfig.remote shouldBe "origin"
     }
 
+    "branchToRevise" {
+      grhConfig.branchToRevise shouldBe "solution"
+    }
+
     "incrementCommits" {
-      grhConfig.remote shouldBe "origin"
-      val incrementCommits = grhConfig.incrementCommits
-      val incrementCommit = incrementCommits[0]
+      val incrementCommit = grhConfig.incrementCommits[0]
       incrementCommit.message shouldBe "first feature"
       incrementCommit.tags shouldBe listOf("feature1-finish", "feature2-start")
+      incrementCommit.branches shouldBe listOf("feature1","another-branch")
+    }
+
+    "incrementCommits with empty tags and branches" {
+      val emptyIncrementCommit = grhConfig.incrementCommits[1]
+      emptyIncrementCommit.message shouldBe "in-progress feature"
+      emptyIncrementCommit.tags shouldBe emptyList<String>()
+      emptyIncrementCommit.branches shouldBe emptyList<String>()
     }
   }
 }

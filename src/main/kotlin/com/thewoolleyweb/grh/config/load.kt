@@ -8,6 +8,7 @@ fun load(rawValue: StringBuilder): GrhConfig {
   val incrementCommits: List<IncrementCommit>? = loadIncrementCommits(incrementCommitsJsonArray)
   return GrhConfig(
     remote = configJsonObject.string("remote") ?: "origin",
+    branchToRevise = configJsonObject.string("branchToRevise") ?: throw IllegalArgumentException("branchToRevise is required"),
     incrementCommits = incrementCommits ?: arrayListOf()
   )
 }
@@ -15,8 +16,9 @@ fun load(rawValue: StringBuilder): GrhConfig {
 private fun loadIncrementCommits(incrementCommitsJsonArray: JsonArray<JsonObject>): List<IncrementCommit> {
   return incrementCommitsJsonArray.map {
     IncrementCommit(
-      message = it.string("message") ?: throw IllegalArgumentException("incrementCommit message expected"),
-      tags = it.array<String>("tags")?.map { it } ?: arrayListOf()
+      message = it.string("message") ?: throw IllegalArgumentException("incrementCommit message is required"),
+      tags = it.array<String>("tags")?.map { it } ?: arrayListOf(),
+      branches = it.array<String>("branches")?.map { it } ?: arrayListOf()
     )
   }
 }
