@@ -1,11 +1,11 @@
-package test.grh
+package test.grh.cmd
 
 import com.thewoolleyweb.grh.cmd.run
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldThrow
 import io.kotlintest.specs.StringSpec
 
-class CmdTest : StringSpec() {
+class runTest : StringSpec() {
   init {
     "works" {
       val out = run("echo 'foo'")

@@ -1,11 +1,11 @@
-package test.grh
+package test.grh.config
 
 import com.thewoolleyweb.grh.config.load
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldThrow
 import io.kotlintest.specs.StringSpec
 
-class ConfigTest : StringSpec() {
+class loadTest : StringSpec() {
   init {
     val jsonText = """
             |{
@@ -74,6 +74,5 @@ class ConfigTest : StringSpec() {
         load(StringBuilder(invalidJsonText))
       }
     }
-
   }
 }
