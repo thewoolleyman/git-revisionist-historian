@@ -4,11 +4,13 @@ import com.beust.klaxon.*
 
 fun load(rawValue: StringBuilder): GrhConfig {
   val configJsonObject = Parser().parse(rawValue) as JsonObject
-  val incrementCommitsJsonArray = configJsonObject.array<JsonObject>("incrementCommits") as JsonArray<JsonObject>
+  val incrementCommitsJsonArray: JsonArray<JsonObject> = configJsonObject.array<JsonObject>("incrementCommits")
+    ?: throw IllegalArgumentException("branchToRevise is required")
   val incrementCommits: List<IncrementCommit>? = loadIncrementCommits(incrementCommitsJsonArray)
   return GrhConfig(
     remote = configJsonObject.string("remote") ?: "origin",
-    branchToRevise = configJsonObject.string("branchToRevise") ?: throw IllegalArgumentException("branchToRevise is required"),
+    branchToRevise = configJsonObject.string("branchToRevise")
+      ?: throw IllegalArgumentException("branchToRevise is required"),
     incrementCommits = incrementCommits ?: arrayListOf()
   )
 }

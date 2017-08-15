@@ -2,6 +2,7 @@ package test.grh
 
 import com.thewoolleyweb.grh.config.load
 import io.kotlintest.matchers.shouldBe
+import io.kotlintest.matchers.shouldThrow
 import io.kotlintest.specs.StringSpec
 
 class ConfigTest : StringSpec() {
@@ -17,15 +18,19 @@ class ConfigTest : StringSpec() {
             |      "branches": ["feature1","another-branch"]
             |    },
             |    {
-            |      "message": "in-progress feature",
+            |      "message": "in-progress feature with empty tags and branches",
+            |      "tags": [],
+            |      "branches": []
+            |    }
+            |    {
+            |      "message": "in-progress feature with omitted tags and branches",
             |      "tags": [],
             |      "branches": []
             |    }
             |  ]
             |}
         """.trimMargin()
-    val rawValue: StringBuilder = StringBuilder(jsonText)
-    val grhConfig = load(rawValue)
+    val grhConfig = load(StringBuilder(jsonText))
 
     "remote" {
       grhConfig.remote shouldBe "origin"
@@ -33,6 +38,13 @@ class ConfigTest : StringSpec() {
 
     "branchToRevise" {
       grhConfig.branchToRevise shouldBe "solution"
+    }
+
+    "branchToRevise error" {
+      val invalidJsonText = """{"remote": "origin","incrementCommits": []}"""
+      shouldThrow<IllegalArgumentException> {
+        load(StringBuilder(invalidJsonText))
+      }
     }
 
     "incrementCommits" {
@@ -44,9 +56,24 @@ class ConfigTest : StringSpec() {
 
     "incrementCommits with empty tags and branches" {
       val emptyIncrementCommit = grhConfig.incrementCommits[1]
-      emptyIncrementCommit.message shouldBe "in-progress feature"
+      emptyIncrementCommit.message shouldBe "in-progress feature with empty tags and branches"
       emptyIncrementCommit.tags shouldBe emptyList<String>()
       emptyIncrementCommit.branches shouldBe emptyList<String>()
     }
+
+    "incrementCommits with omitted tags and branches" {
+      val omittedIncrementCommit = grhConfig.incrementCommits[2]
+      omittedIncrementCommit.message shouldBe "in-progress feature with omitted tags and branches"
+      omittedIncrementCommit.tags shouldBe emptyList<String>()
+      omittedIncrementCommit.branches shouldBe emptyList<String>()
+    }
+
+    "incrementCommits error" {
+      val invalidJsonText = """{"remote": "origin","branchToRevise": "solution"}"""
+      shouldThrow<IllegalArgumentException> {
+        load(StringBuilder(invalidJsonText))
+      }
+    }
+
   }
 }
