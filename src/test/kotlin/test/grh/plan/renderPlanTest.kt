@@ -25,7 +25,7 @@ class renderPlanTest : StringSpec() {
         "git tag --force feature1-finish c2",
         "git tag --force feature2-start c2",
         "git tag --force feature2-finish c4",
-        "git push --tags"
+        "git push --force --tags"
       )
     }
 

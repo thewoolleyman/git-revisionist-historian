@@ -8,7 +8,7 @@ fun renderPlan(plan: Plan, skipPush: Boolean): List<String> {
   plan.steps.forEach { step ->
     when(step.command) {
       Command.TAG -> commandLines.add("git tag --force ${step.tag} ${step.sha}")
-      Command.PUSH_TAGS -> if (!skipPush) commandLines.add("git push --tags")
+      Command.PUSH_TAGS -> if (!skipPush) commandLines.add("git push --force --tags")
     }
   }
   return commandLines
