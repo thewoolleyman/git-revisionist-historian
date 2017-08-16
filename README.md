@@ -69,7 +69,7 @@ Config file format
   "incrementCommits": [
     {
       "message": "initial commit",
-      "tags": ["feature1-start"],
+      "tags": ["feature1-start"]
     },
     {
       "message": "first feature",

@@ -63,7 +63,8 @@ class createPlanTest : StringSpec() {
           Invocation(command = Command.TAG, sha = "c1", tag = "feature1-start"),
           Invocation(command = Command.TAG, sha = "c2", tag = "feature1-finish"),
           Invocation(command = Command.TAG, sha = "c2", tag = "feature2-start"),
-          Invocation(command = Command.TAG, sha = "c4", tag = "feature2-finish")
+          Invocation(command = Command.TAG, sha = "c4", tag = "feature2-finish"),
+          Invocation(command = Command.PUSH_TAGS)
         )
       )
     }

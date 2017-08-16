@@ -8,9 +8,10 @@ import com.thewoolleyweb.grh.git.Invocation
 import com.thewoolleyweb.grh.git.Log
 
 fun createPlan(config: GrhConfig, log: Log): Plan {
-  val invocations: List<Invocation> =
+  val invocations: ArrayList<Invocation> =
     incrementCommitsWithMatches(config.incrementCommits, log.commits)
       .fold(initial = arrayListOf<Invocation>(), operation = ::generateInvocations)
+  invocations.add(Invocation(command = Command.PUSH_TAGS))
   return Plan(steps = invocations)
 }
 
