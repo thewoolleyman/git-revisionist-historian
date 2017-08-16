@@ -2,8 +2,8 @@
 
 # git-revisionist-historian
 
-Manages updates to example/instructional repositories which are built up from multiple incremental changes, and
-automatically associates tags and/or branches with them based on unique strings in the commit message.
+Manages updates to tags/branches of example/instructional repositories which are built up from multiple incremental
+changes, and automatically associates tags and/or branches with them based on unique strings in the commit message.
 
 For example, when **`git rh`** is run against the **`solution`** branch of an instructional repo, a commit which
 introduces the fifth consecutive feature or piece of functionality would have the following automatically performed:
