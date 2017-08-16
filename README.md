@@ -47,9 +47,13 @@ tag requires going through multiple steps.
   locally without pushing them, then run again without this option to push them. 
 * `git rh` will fail and refuse to run if:
   * You are not in a git repo
-  * There are any uncommitted changes in the working copy.
   * Any of the `branches` entries are the same as the `branchToRevise`
 * `git rh` will also fail **after making local changes** if it does not have permissions to force push to the remote.
+
+## Usage
+
+1. Make changes to the `branchToRevise`, with a rebase interactive 'edit', and force-push.
+1. `git rh --config path/to/grh-config.json [options...]` - begin revision process.
 
 ## Config File
 
@@ -95,7 +99,7 @@ Config file format
 }
 ```
 
-## Workflow
+## What It Does
 
 1. `git rh --config path/to/grh-config.json` - begin revision process.
 1. Perform pre-run validations, fail if any do not pass.
