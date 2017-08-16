@@ -5,6 +5,11 @@
 Manages updates to tags/branches of example/instructional repositories which are built up from multiple incremental
 changes, and automatically associates tags and/or branches with them based on unique strings in the commit message.
 
+***NOTE: There is not yet a native executable git extension `git-rh` (invokable as `git rh` when it is on the path),
+so for now assume all occurrences of `git rh` in the docs to be replaced with
+`java -jar build/libs/git-revisionist-historian.jar [options...]`.  See "Building and Running Locally" below and
+watch [this story](https://www.pivotaltracker.com/story/show/150307700) for details.***
+
 For example, when **`git rh`** is run against the **`solution`** branch of an instructional repo, a commit which
 introduces the fifth consecutive feature or piece of functionality would have the following automatically performed:
 * The **prior commit (HEAD^)**, having a commit message of **"feature4"**, would be tagged **"feature5-start"**
@@ -33,11 +38,11 @@ tag requires going through multiple steps.
 
 * An executable CLI tool: `git-rh` - will act as `git rh` extension when added to path.
 * Usage (run from a writable clone of a git repo to be be revised):
-  * `git rh [--dry-run|-n] [--no-push] --config|-c grh-config.json` - When run within a checkout of a git repo, performs the revision process,
+  * `git rh [--dry-run|-n] [--skip-push|-s] --config|-c grh-config.json` - When run within a checkout of a git repo, performs the revision process,
     and automatically forces the update and push of all created/modified tags and branches.
 * `--config|-c` can point to a config file via a relative path in the repository, an external path, or at an HTTP URL.  Default location is `./grh-config.json`.
 * `--dry-run|-n` will print out progress but not actually make any changes, neither local nor remote.
-* `--no-push` will make all changes to the local clone of the repo, but not push them to the origin.  Note that since
+* `--skip-push` will make all changes to the local clone of the repo, but not push them to the origin.  Note that since
   all local changes are essentially idempotent because they are forced, this option can be used to review changed tags/branches
   locally without pushing them, then run again without this option to push them. 
 * `git rh` will fail and refuse to run if:
@@ -101,13 +106,14 @@ Config file format
 1. Continue until all `incrementCommits` are successfully processed.
 1. Push (`--force-with-lease` for branches) all modified tags and branches.
 
-# Building and Running
+# Building and Running Locally
 
 * `./gradlew clean build jar`
-* `java -jar build/libs/git-revisionist-historian.jar`
+* `java -jar build/libs/git-revisionist-historian.jar [options...]`
 
 # Downloading
 
+* (Coming soon): Native executable
 * (Coming soon): Concourse resource
 * (Coming soon): Install via Homebrew
 * (Coming soon): Install via Maven/Gradle
