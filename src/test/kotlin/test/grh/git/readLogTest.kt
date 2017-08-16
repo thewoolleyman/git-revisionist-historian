@@ -33,7 +33,7 @@ class readLogTest : StringSpec() {
       )
     )
     "works" {
-      readLog("solution") shouldBe log
+      readLog("origin/solution") shouldBe log
     }
   }
 }
