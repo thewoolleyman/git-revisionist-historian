@@ -1,5 +1,6 @@
 package test.grh.git
 
+import com.thewoolleyweb.grh.cmd.run
 import com.thewoolleyweb.grh.git.Commit
 import com.thewoolleyweb.grh.git.Log
 import com.thewoolleyweb.grh.git.readLog
@@ -33,7 +34,10 @@ class readLogTest : StringSpec() {
       )
     )
     "works" {
-      readLog("origin/solution") shouldBe log
+      // TODO: make this test not dependent upon the remote name and local branch, maybe
+      //       delete or rewrite it once there's an acceptance test
+      run("git fetch origin solution:solution")
+      readLog("solution") shouldBe log
     }
   }
 }
