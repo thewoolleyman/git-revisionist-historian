@@ -1,6 +1,7 @@
 package com.thewoolleyweb.grh.processor
 
 import com.thewoolleyweb.grh.Args
+import com.thewoolleyweb.grh.cmd.run
 import com.thewoolleyweb.grh.config.load
 import com.thewoolleyweb.grh.git.readLog
 import com.thewoolleyweb.grh.plan.createPlan
@@ -12,7 +13,10 @@ fun process(args: Args): Unit {
   val grhConfig = load(StringBuilder(readConfigFile(args.configFile)))
   val log = readLog(grhConfig.branchToRevise)
   val plan = createPlan(grhConfig, log)
-  println(renderPlan(plan))
+  val invocations = renderPlan(plan)
+  invocations.forEach { invocation ->
+    run(invocation)    
+  }
 }
 
 private fun readConfigFile(configFile: String): String {
