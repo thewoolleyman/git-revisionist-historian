@@ -1,4 +1,4 @@
-package test.grh.config
+package test.grh.git
 
 import com.thewoolleyweb.grh.git.Commit
 import com.thewoolleyweb.grh.git.Log
