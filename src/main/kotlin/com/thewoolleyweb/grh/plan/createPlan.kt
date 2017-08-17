@@ -15,11 +15,11 @@ fun createPlan(config: GrhConfig, log: Log): Plan {
   return Plan(steps = invocations)
 }
 
-private fun incrementCommitsWithMatches(incrementCommits: List<IncrementCommit>, commits: List<Commit>):
-  List<Pair<Commit, IncrementCommit>> {
-  val maybePairedCommits = commits.map { commit -> maybePairedCommit(commit, incrementCommits) }
-  return maybePairedCommits.filterNotNull()
-}
+private fun incrementCommitsWithMatches(incrementCommits: List<IncrementCommit>, commits: List<Commit>)
+  : List<Pair<Commit, IncrementCommit>> =
+  commits
+    .map { commit -> maybePairedCommit(commit, incrementCommits) }
+    .filterNotNull()
 
 private fun maybePairedCommit(commit: Commit, incrementCommits: List<IncrementCommit>): Pair<Commit, IncrementCommit>? {
   // return a pair of commit + first matching incrementCommit, if one is found, or null if not
@@ -49,3 +49,4 @@ private fun generateInvocations(
   }
   return invocations
 }
+
