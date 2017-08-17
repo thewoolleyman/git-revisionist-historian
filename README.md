@@ -5,8 +5,8 @@
 Manages updates to tags/branches of example/instructional repositories which are built up from multiple incremental
 changes, and automatically associates tags and/or branches with them based on unique strings in the commit message.
 
-***NOTE: There is not yet a native executable git extension `git-rh` (invokable as `git rh` when it is on the path),
-so for now assume all occurrences of `git rh` in the docs to be replaced with
+***IMPORTANT NOTE: There is not yet a native executable git extension `git-rh` (invokable as `git rh` when it
+is on the path), so for now assume all occurrences of `git rh` in the docs to be replaced with
 `java -jar build/libs/git-revisionist-historian.jar [options...]`.  See "Building and Running Locally" below and
 watch [this story](https://www.pivotaltracker.com/story/show/150307700) for details.***
 
@@ -52,8 +52,17 @@ tag requires going through multiple steps.
 
 ## Usage
 
-1. Make changes to the `branchToRevise`, with a rebase interactive 'edit', and force-push.
-1. `git rh --config path/to/grh-config.json [options...]` - begin revision process.
+1. Make revisions to the `branchToRevise` and push
+    1. `git checkout <branchToRevise>`
+    1. `git pull`
+    1. `git rebase -i --root` (see git rebase manpage for details, the following steps are a summary)
+    1. Change "pick" to "edit" for the commits you wish to revise
+    1. Rebase will stop on those commits, make the revisions, then `git add/delete` and `git commit`
+    1. `git rebase --continue` until complete, resolving any conflicts and performing remaining edits
+    1. Run any necessary tests, etc to verify revisions.
+    1. `git push --force-with-lease` the rebased `branchToRevise`
+1. Run git-revisionist-historian to update the tags/branches specified in the config file 
+    1. `git rh [--config path/to/grh-config.json] [other options...]`
 
 ## Config File
 
