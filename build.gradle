@@ -1,6 +1,7 @@
 buildscript {
     ext {
-        grhVersion = "1.0.0"
+        versionFilePath = System.getenv("VERSION_FILE_PATH")
+        grhVersion = versionFilePath ? new File(versionFilePath).readLines()[0] : "dev"
         argparserVersion = '2.0.3'
         klaxonVersion = '0.31'
         kotlinVersion = '1.1.3-2'
@@ -65,10 +66,10 @@ publishing {
     repositories {
         maven {
             name "grh"
-            url "s3://grh"
+            url "s3://git-revisionist-historian"
             credentials(AwsCredentials) {
-                accessKey System.getenv("AWS_KEY")
-                secretKey System.getenv("AWS_SECRET")
+                accessKey System.getenv("AWS_ACCESS_KEY_ID")
+                secretKey System.getenv("AWS_SECRET_ACCESS_KEY")
             }
         }
         maven {
@@ -84,4 +85,3 @@ task publishLocal {
             "publishToMavenLocal"
     )
 }
-
