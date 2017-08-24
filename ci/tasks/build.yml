@@ -11,8 +11,8 @@ inputs:
 - name: git-revisionist-historian
 
 run:
-  path: sh
+  path: bash
   args:
-  - -c
+  - -exc
   - |
-    cd git-revisionist-historian && ./gradlew clean build --info --stacktrace
+    git-revisionist-historian/gradlew build publishGrhPublicationToConcourseArtifactRepository -p git-revisionist-historian
