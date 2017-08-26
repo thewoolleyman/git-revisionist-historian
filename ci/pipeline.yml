@@ -6,14 +6,25 @@
 
 resources:
 
-##############################     GIT RESOURCES     ##############################
+##############################   GIT RESOURCES   ##############################
 
-  - name: git-revisionist-historian
+  - name: grh
     type: git
     source:
-#      uri: git@github.com:thewoolleyman/git-revisionist-historian.git
       uri: https://github.com/thewoolleyman/git-revisionist-historian.git
       branch: master
+
+############################## SEMVER RESOURCES  ##############################
+
+  - name: version
+    type: semver
+    source:
+      driver: s3
+      initial_version: 0.0.1
+      bucket: git-revisionist-historian
+      key: version
+      access_key_id: {{AWS_ACCESS_KEY_ID}}
+      secret_access_key: {{AWS_SECRET_ACCESS_KEY}}
 
 ###############################################################################
 ##############################                   ##############################
@@ -24,7 +35,64 @@ resources:
 jobs:
   - name: build
     plan:
-      - get: git-revisionist-historian
+      - get: grh
         trigger: true
       - task: build
-        file: git-revisionist-historian/ci/tasks/build.yml
+        file: grh/ci/tasks/build.yml
+
+  - name: publish-dev
+    plan:
+      - get: grh
+        trigger: true
+        passed: [build]
+      - get: version # not used, but required in order to use same publish.yml task which has it as an input
+      - task: publish
+        file: grh/ci/tasks/publish.yml
+        params:
+          AWS_ACCESS_KEY_ID: {{AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: {{AWS_SECRET_ACCESS_KEY}}
+
+  - name: publish-alpha
+    plan:
+      - get: grh
+        passed: [publish-dev]
+      - get: version
+        params: {pre: rc}
+      - task: publish
+        file: grh/ci/tasks/publish.yml
+        params:
+          VERSION_FILE_PATH: ../version/version
+          AWS_ACCESS_KEY_ID: {{AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: {{AWS_SECRET_ACCESS_KEY}}
+      - put: version
+        params: {file: version/version}
+
+  - name: publish-final
+    plan:
+      - get: grh
+        passed: [publish-dev]
+      - get: version
+        params: {bump: final}
+      - task: publish
+        file: grh/ci/tasks/publish.yml
+        params:
+          VERSION_FILE_PATH: ../version/version
+          AWS_ACCESS_KEY_ID: {{AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: {{AWS_SECRET_ACCESS_KEY}}
+      - put: version
+        params: {file: version/version}
+
+  - name: bump-major
+    plan:
+      - put: version
+        params: {bump: major}
+
+  - name: bump-minor
+    plan:
+      - put: version
+        params: {bump: minor}
+
+  - name: bump-patch
+    plan:
+      - put: version
+        params: {bump: patch}

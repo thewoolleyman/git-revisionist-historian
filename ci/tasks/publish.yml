@@ -9,10 +9,11 @@ image_resource:
 
 inputs:
 - name: grh
+- name: version
 
 run:
   path: bash
   args:
   - -exc
   - |
-    cd grh && ./gradlew build publishGrhPublicationToConcourseArtifactRepository
+    cd grh && ./gradlew publishGrhPublicationToGrhRepository
