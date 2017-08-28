@@ -20,12 +20,6 @@ for current status.  Note the following known issues:
 Manages updates to tags/branches of example/instructional repositories which are built up from multiple incremental
 changes, and automatically associates tags and/or branches with them based on unique strings in the commit message.
 
-***IMPORTANT NOTE: There is not yet a native executable git extension `git-rh` (invokable as `git rh` when it
-is on the path), so for now assume all occurrences of `git rh` in the docs to be replaced with
-`java -jar path/to/git-revisionist-historian.jar [options...]`.  See "Building and Running Locally" below and
-watch [this story](https://www.pivotaltracker.com/story/show/150307700)
-and [this story](https://www.pivotaltracker.com/story/show/150603755) for details.***
-
 For example, when **`git rh`** is run against the **`solution`** branch of an instructional repo, a commit which
 introduces the fifth consecutive feature or piece of functionality would have the following automatically performed:
 * The **prior commit (HEAD^)**, having a commit message of **"feature4"**, would be tagged **"feature5-start"**
