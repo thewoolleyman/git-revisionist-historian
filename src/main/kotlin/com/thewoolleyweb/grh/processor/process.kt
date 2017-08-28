@@ -7,6 +7,9 @@ import com.thewoolleyweb.grh.git.readLog
 import com.thewoolleyweb.grh.plan.createPlan
 import com.thewoolleyweb.grh.plan.renderPlan
 import java.io.File
+import java.nio.file.Paths
+
+
 
 fun process(args: Args): Unit {
   println("Running with config file ${args.configFile}")
@@ -47,5 +50,8 @@ private fun runWithLogging(commandLines: String) {
   print(run(commandLines).joinToString("\n"))
 }
 
-private fun readConfigFile(configFile: String): String =
-  File(configFile).inputStream().bufferedReader().use { it.readText() }
+private fun readConfigFile(configFile: String): String {
+  val currentPath = Paths.get("").toAbsolutePath().toString()
+  println("Reading config file '$configFile, current path is $currentPath")
+  return File(configFile).inputStream().bufferedReader().use { it.readText() }
+}

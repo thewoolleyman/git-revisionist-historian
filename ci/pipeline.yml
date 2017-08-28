@@ -52,10 +52,20 @@ jobs:
           AWS_ACCESS_KEY_ID: {{AWS_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: {{AWS_SECRET_ACCESS_KEY}}
 
-  - name: publish-alpha
+  - name: run-on-test-repo
     plan:
       - get: grh
         passed: [publish-dev]
+        trigger: true
+      - task: build
+        file: grh/ci/tasks/run-on-test-repo.yml
+        params:
+          GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY: {{GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY}}
+
+  - name: publish-alpha
+    plan:
+      - get: grh
+        passed: [run-on-test-repo]
       - get: version
         params: {pre: rc}
       - task: publish
@@ -70,7 +80,7 @@ jobs:
   - name: publish-final
     plan:
       - get: grh
-        passed: [publish-dev]
+        passed: [run-on-test-repo]
       - get: version
         params: {bump: final}
       - task: publish
