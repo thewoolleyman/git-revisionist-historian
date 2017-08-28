@@ -71,7 +71,7 @@ Config file format
 * `remote`: optional, string, defaults to `origin`
 * `branchToRevise`: required, string
 * `incrementCommits`: required, array of `incrementCommit` objects, which consist of:
-  * `message`: required, regular expression
+  * `message`: required, *case insensitive* regular expression (via Kotlin `message.toRegex(RegexOption.IGNORE_CASE)`)
   * `tags`: required, array of strings (may be empty)
   * `branches`: required, array of strings (may be empty)
 

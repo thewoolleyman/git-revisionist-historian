@@ -15,7 +15,7 @@ class createPlanTest : StringSpec() {
       branchToRevise = "solution",
       incrementCommits = listOf(
         IncrementCommit(
-          message = "Initial commit",
+          message = "initial commit", // Note that this will be an IGNORE_CASE regex match
           tags = listOf("feature1-start"),
           branches = listOf("feature1")
         ),
