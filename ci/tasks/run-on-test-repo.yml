@@ -17,11 +17,11 @@ run:
   args:
   - -exc
   - |
-    curl -O https://s3.amazonaws.com/git-revisionist-historian/com/thewoolleyweb/grh/git-revisionist-historian/dev/git-revisionist-historian-dev.jar && \
-    mkdir -p ~/.ssh && \
-    ssh-keyscan -H github.com >> ~/.ssh/known_hosts # TODO: NOT SECURE, VULNERABLE TO MITM && \
-    echo "${GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY}" > ~/.ssh/id_rsa # TODO: INSECURE, PRINTS IN LOG BECAUSE OF -x && \
-    chmod 600 ~/.ssh/id_rsa && \
-    git clone git@github.com:thewoolleyman/git-revisionist-historian-test-repo.git && \
-    cd git-revisionist-historian-test-repo && \
+    curl -O https://s3.amazonaws.com/git-revisionist-historian/com/thewoolleyweb/grh/git-revisionist-historian/dev/git-revisionist-historian-dev.jar
+    mkdir -p ~/.ssh
+    ssh-keyscan -H github.com >> ~/.ssh/known_hosts # TODO: NOT SECURE, VULNERABLE TO MITM
+    echo "${GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY}" > ~/.ssh/id_rsa # TODO: INSECURE, PRINTS IN LOG BECAUSE OF -x
+    chmod 600 ~/.ssh/id_rsa
+    git clone git@github.com:thewoolleyman/git-revisionist-historian-test-repo.git
+    cd git-revisionist-historian-test-repo
     java -jar ../git-revisionist-historian-dev.jar
