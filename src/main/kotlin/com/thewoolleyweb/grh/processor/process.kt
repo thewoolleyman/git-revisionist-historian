@@ -10,7 +10,6 @@ import java.io.File
 import java.nio.file.Paths
 
 
-
 fun process(args: Args): Unit {
   println("Running with config file ${args.configFile}")
   val grhConfig = load(StringBuilder(readConfigFile(args.configFile)))

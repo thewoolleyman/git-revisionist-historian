@@ -23,8 +23,7 @@ private fun incrementCommitsWithMatches(incrementCommits: List<IncrementCommit>,
 
 private fun maybePairedCommit(commit: Commit, incrementCommits: List<IncrementCommit>): Pair<Commit, IncrementCommit>? {
   // return a pair of commit + first matching incrementCommit, if one is found, or null if not
-  val maybeMatch: IncrementCommit? = incrementCommits.find {
-    (message) ->
+  val maybeMatch: IncrementCommit? = incrementCommits.find { (message) ->
     message.toRegex(RegexOption.IGNORE_CASE).containsMatchIn(commit.message)
   }
   if (maybeMatch != null)

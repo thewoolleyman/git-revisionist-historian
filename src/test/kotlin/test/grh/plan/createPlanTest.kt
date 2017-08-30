@@ -2,7 +2,10 @@ package test.grh.config
 
 import com.thewoolleyweb.grh.config.GrhConfig
 import com.thewoolleyweb.grh.config.IncrementCommit
-import com.thewoolleyweb.grh.git.*
+import com.thewoolleyweb.grh.git.Command
+import com.thewoolleyweb.grh.git.Commit
+import com.thewoolleyweb.grh.git.Invocation
+import com.thewoolleyweb.grh.git.Log
 import com.thewoolleyweb.grh.plan.Plan
 import com.thewoolleyweb.grh.plan.createPlan
 import io.kotlintest.matchers.shouldBe

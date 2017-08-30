@@ -51,7 +51,7 @@ class loadTest : StringSpec() {
       val incrementCommit = grhConfig.incrementCommits[0]
       incrementCommit.message shouldBe "first feature"
       incrementCommit.tags shouldBe listOf("feature1-finish", "feature2-start")
-      incrementCommit.branches shouldBe listOf("feature1","another-branch")
+      incrementCommit.branches shouldBe listOf("feature1", "another-branch")
     }
 
     "incrementCommits with empty tags and branches" {
