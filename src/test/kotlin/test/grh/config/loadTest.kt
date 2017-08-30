@@ -1,6 +1,6 @@
 package test.grh.config
 
-import com.thewoolleyweb.grh.config.load
+import com.thewoolleyweb.grh.config.parseConfig
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldThrow
 import io.kotlintest.specs.StringSpec
@@ -30,7 +30,7 @@ class loadTest : StringSpec() {
             |  ]
             |}
         """.trimMargin()
-    val grhConfig = load(StringBuilder(jsonText))
+    val grhConfig = parseConfig(StringBuilder(jsonText))
 
     "remote" {
       grhConfig.remote shouldBe "origin"
@@ -43,7 +43,7 @@ class loadTest : StringSpec() {
     "branchToRevise error" {
       val invalidJsonText = """{"remote": "origin","incrementCommits": []}"""
       shouldThrow<IllegalArgumentException> {
-        load(StringBuilder(invalidJsonText))
+        parseConfig(StringBuilder(invalidJsonText))
       }
     }
 
@@ -71,7 +71,7 @@ class loadTest : StringSpec() {
     "incrementCommits error" {
       val invalidJsonText = """{"remote": "origin","branchToRevise": "solution"}"""
       shouldThrow<IllegalArgumentException> {
-        load(StringBuilder(invalidJsonText))
+        parseConfig(StringBuilder(invalidJsonText))
       }
     }
   }

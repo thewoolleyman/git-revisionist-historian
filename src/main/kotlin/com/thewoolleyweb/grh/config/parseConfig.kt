@@ -2,7 +2,7 @@ package com.thewoolleyweb.grh.config
 
 import com.beust.klaxon.*
 
-fun load(rawValue: StringBuilder): GrhConfig {
+fun parseConfig(rawValue: StringBuilder): GrhConfig {
   val configJsonObject = Parser().parse(rawValue) as JsonObject
   val incrementCommitsJsonArray: JsonArray<JsonObject> = configJsonObject.array<JsonObject>("incrementCommits")
     ?: throw IllegalArgumentException("branchToRevise is required")

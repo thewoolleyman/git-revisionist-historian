@@ -1,0 +1,21 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: openjdk
+    tag: "8"
+
+inputs:
+- name: grh
+- name: grh-test-repo
+
+run:
+  path: bash
+  args:
+  - -exc
+  - |
+    curl -O https://s3.amazonaws.com/git-revisionist-historian/com/thewoolleyweb/grh/git-revisionist-historian/${DEV_VERSION}/git-revisionist-historian-${DEV_VERSION}.jar
+    cd grh-test-repo
+    java -jar ../git-revisionist-historian-${DEV_VERSION}.jar --repo thewoolleyman/git-revisionist-historian-test-repo --processor api

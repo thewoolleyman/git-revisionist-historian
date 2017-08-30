@@ -4,15 +4,13 @@ import com.thewoolleyweb.grh.config.GrhConfig
 import com.thewoolleyweb.grh.config.IncrementCommit
 import com.thewoolleyweb.grh.git.Command
 import com.thewoolleyweb.grh.git.Commit
-import com.thewoolleyweb.grh.git.Invocation
 import com.thewoolleyweb.grh.git.Log
 
 fun createPlan(config: GrhConfig, log: Log): Plan {
-  val invocations: ArrayList<Invocation> =
+  val actions: ArrayList<Action> =
     incrementCommitsWithMatches(config.incrementCommits, log.commits)
-      .fold(initial = arrayListOf<Invocation>(), operation = ::generateInvocations)
-  invocations.add(Invocation(command = Command.PUSH_TAGS))
-  return Plan(steps = invocations)
+      .fold(initial = arrayListOf<Action>(), operation = ::generateActions)
+  return Plan(actions = actions)
 }
 
 private fun incrementCommitsWithMatches(incrementCommits: List<IncrementCommit>, commits: List<Commit>)
@@ -26,26 +24,26 @@ private fun maybePairedCommit(commit: Commit, incrementCommits: List<IncrementCo
   val maybeMatch: IncrementCommit? = incrementCommits.find { (message) ->
     message.toRegex(RegexOption.IGNORE_CASE).containsMatchIn(commit.message)
   }
-  if (maybeMatch != null)
-    return Pair(commit, maybeMatch)
+  return if (maybeMatch != null)
+    Pair(commit, maybeMatch)
   else
-    return null
+    null
 }
 
-private fun generateInvocations(
-  invocations: ArrayList<Invocation>, incrementCommitWithMatch: Pair<Commit, IncrementCommit>):
-  ArrayList<Invocation> {
+private fun generateActions(
+  actions: ArrayList<Action>, incrementCommitWithMatch: Pair<Commit, IncrementCommit>):
+  ArrayList<Action> {
   val commit = incrementCommitWithMatch.first
   val incrementCommit = incrementCommitWithMatch.second
   incrementCommit.tags.forEach { tag ->
-    invocations.add(
-      Invocation(
+    actions.add(
+      Action(
         command = Command.TAG,
         sha = commit.sha,
-        tag = tag
+        refname = tag
       )
     )
   }
-  return invocations
+  return actions
 }
 

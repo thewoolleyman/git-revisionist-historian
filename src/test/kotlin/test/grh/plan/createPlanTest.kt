@@ -4,8 +4,8 @@ import com.thewoolleyweb.grh.config.GrhConfig
 import com.thewoolleyweb.grh.config.IncrementCommit
 import com.thewoolleyweb.grh.git.Command
 import com.thewoolleyweb.grh.git.Commit
-import com.thewoolleyweb.grh.git.Invocation
 import com.thewoolleyweb.grh.git.Log
+import com.thewoolleyweb.grh.plan.Action
 import com.thewoolleyweb.grh.plan.Plan
 import com.thewoolleyweb.grh.plan.createPlan
 import io.kotlintest.matchers.shouldBe
@@ -62,12 +62,11 @@ class createPlanTest : StringSpec() {
 
     "works" {
       createPlan(config, log) shouldBe Plan(
-        steps = listOf(
-          Invocation(command = Command.TAG, sha = "c1", tag = "feature1-start"),
-          Invocation(command = Command.TAG, sha = "c2", tag = "feature1-finish"),
-          Invocation(command = Command.TAG, sha = "c2", tag = "feature2-start"),
-          Invocation(command = Command.TAG, sha = "c4", tag = "feature2-finish"),
-          Invocation(command = Command.PUSH_TAGS)
+        actions = listOf(
+          Action(command = Command.TAG, sha = "c1", refname = "feature1-start"),
+          Action(command = Command.TAG, sha = "c2", refname = "feature1-finish"),
+          Action(command = Command.TAG, sha = "c2", refname = "feature2-start"),
+          Action(command = Command.TAG, sha = "c4", refname = "feature2-finish")
         )
       )
     }

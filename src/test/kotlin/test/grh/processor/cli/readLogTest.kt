@@ -1,9 +1,8 @@
-package test.grh.git
+package test.grh.processor.cli
 
-import com.thewoolleyweb.grh.cmd.run
 import com.thewoolleyweb.grh.git.Commit
 import com.thewoolleyweb.grh.git.Log
-import com.thewoolleyweb.grh.git.readLog
+import com.thewoolleyweb.grh.processor.cli.readLog
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec
 
@@ -36,8 +35,7 @@ class readLogTest : StringSpec() {
     "works" {
       // TODO: make this test not dependent upon the remote name and local branch, maybe
       //       delete or rewrite it once there's an acceptance test
-      run("git fetch origin solution:solution")
-      readLog("solution") shouldBe log
+      readLog("origin", "solution") shouldBe log
     }
   }
 }

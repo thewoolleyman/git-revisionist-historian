@@ -14,6 +14,12 @@ resources:
       uri: https://github.com/thewoolleyman/git-revisionist-historian.git
       branch: master
 
+  - name: grh-test-repo
+    type: git
+    source:
+      uri: https://github.com/thewoolleyman/git-revisionist-historian-test-repo.git
+      branch: master
+
 ############################## SEMVER RESOURCES  ##############################
 
   - name: version
@@ -52,20 +58,32 @@ jobs:
           AWS_ACCESS_KEY_ID: {{AWS_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: {{AWS_SECRET_ACCESS_KEY}}
 
-  - name: run-on-test-repo
+  - name: run-cli-processor-on-test-repo
     plan:
       - get: grh
         passed: [publish-dev]
         trigger: true
-      - task: build
-        file: grh/ci/tasks/run-on-test-repo.yml
+      - task: run-cli-processor-on-test-repo
+        file: grh/ci/tasks/run-cli-processor-on-test-repo.yml
         params:
           GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY: {{GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY}}
+
+  - name: run-api-processor-on-test-repo
+    plan:
+      - get: grh
+        passed: [run-cli-processor-on-test-repo]
+        trigger: true
+      - get: grh-test-repo
+        trigger: true
+      - task: run-api-processor-on-test-repo
+        file: grh/ci/tasks/run-api-processor-on-test-repo.yml
+        params:
+          GITHUB_PERSONAL_ACCESS_TOKEN: {{GIT_REVISIONIST_HISTORIAN_TEST_REPO_PERSONAL_ACCESS_TOKEN}} # https://github.com/settings/tokens
 
   - name: publish-alpha
     plan:
       - get: grh
-        passed: [run-on-test-repo]
+        passed: [run-api-processor-on-test-repo]
       - get: version
         params: {pre: rc}
       - task: publish
@@ -80,7 +98,7 @@ jobs:
   - name: publish-final
     plan:
       - get: grh
-        passed: [run-on-test-repo]
+        passed: [publish-alpha]
       - get: version
         params: {bump: final}
       - task: publish
