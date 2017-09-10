@@ -46,15 +46,24 @@ tag requires going through multiple steps.
 
 ## CLI
 
+***(TODO: rewrite this to a more standard and concise manpage-like syntax format)***
+
 * An executable CLI tool: `git-rh` - will act as `git rh` extension when added to path.
 * Usage (run from a writable clone of a git repo to be be revised):
   * `git rh [--dry-run|-n] [--skip-push|-s] --config|-c grh-config.json` - When run within a checkout of a git repo, performs the revision process,
     and automatically forces the update and push of all created/modified tags and branches.
-* `--config|-c` can point to a config file via a relative path in the repository, an external path, or at an HTTP URL.  Default location is `./grh-config.json`.
-* `--dry-run|-n` will print out progress but not actually make any changes, neither local nor remote.
-* `--skip-push` will make all changes to the local clone of the repo, but not push them to the origin.  Note that since
+* `--config|-c CONFIG` can point to a config file via a relative path in the repository, an external path, or at
+  an HTTP URL.  Default value is `./grh-config.json`.
+* `--processor|-p PROCESSOR` can be `cli` or `api`.  If `cli`, all changes will be pushed and applied via the git command line
+  in the current working directory.  If `api`, all changes will be applied via the Github API.
+  * `GITHUB_PERSONAL_ACCESS_TOKEN` Environment variable which specifies the
+    Github Oauth [Personal Access Token](https://github.com/settings/tokens)
+    to use.  Required when `--processor=api`.
+  * `--repo REPO` specified the github repository name to use.  Required and only valid when `--processor=api`.
+  * `--skip-push` will make all changes to the local clone of the repo, but not push them to the origin.  Note that since
   all local changes are essentially idempotent because they are forced, this option can be used to review changed tags/branches
-  locally without pushing them, then run again without this option to push them. 
+  locally without pushing them, then run again without this option to push them.  Only valid when `processor=cli`
+* `--dry-run|-n` will print out progress but not actually make any changes, neither local nor remote.
 * `git rh` will fail and refuse to run if:
   * You are not in a git repo
   * Any of the `branches` entries are the same as the `branchToRevise`
