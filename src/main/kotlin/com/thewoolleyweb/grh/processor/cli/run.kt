@@ -1,10 +1,11 @@
-package com.thewoolleyweb.grh.cmd
+package com.thewoolleyweb.grh.processor.cli
 
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-fun run(cmd: String, timeout: Long = 5): List<String> {
-  val parts = cmd.split("\\s".toRegex())
+fun run(commandLine: String): List<String> {
+  val timeout: Long = 5
+  val parts = commandLine.split("\\s".toRegex())
   val proc = ProcessBuilder(*parts.toTypedArray())
     .directory(File("."))
     .redirectOutput(ProcessBuilder.Redirect.PIPE)
@@ -29,7 +30,7 @@ fun run(cmd: String, timeout: Long = 5): List<String> {
   val exitValue = proc.exitValue()
   if (exitValue != 0) {
     val stderrLines = stderr.joinToString("\n")
-    val message = "\n\nError processing command (exit value $exitValue): '$cmd'\n\n" +
+    val message = "\n\nError processing command line (exit value $exitValue): '$commandLine'\n\n" +
       "Error output:\n$stderrLines\n"
     throw RuntimeException(message)
   }

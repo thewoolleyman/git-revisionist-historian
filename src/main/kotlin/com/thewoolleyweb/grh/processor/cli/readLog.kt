@@ -1,8 +1,10 @@
-package com.thewoolleyweb.grh.git
+package com.thewoolleyweb.grh.processor.cli
 
-import com.thewoolleyweb.grh.cmd.run
+import com.thewoolleyweb.grh.git.Commit
+import com.thewoolleyweb.grh.git.Log
 
-fun readLog(branchToRevise: String): Log {
+fun readLog(remote: String, branchToRevise: String): Log {
+  run("git fetch --update-head-ok $remote $branchToRevise:$branchToRevise")
   val logLines = run("git log $branchToRevise --pretty=oneline")
   val logLineRegex = """^(\S+)\s(.+)$""".toRegex()
   val commits = logLines
@@ -10,6 +12,8 @@ fun readLog(branchToRevise: String): Log {
     .map {
       Commit(
         // TODO: Why do these have to be handled differently???
+        // ANSWER: Brackets are syntactic sugar that apparently don't handle optionals
+        //         the same way as the native List type
         sha = it?.groups?.get(1)?.value ?: throw RuntimeException("unable to parse git commit sha"),
         message = it.groups[2]?.value ?: throw RuntimeException("Unable to parse git commit message")
       )
