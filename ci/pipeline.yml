@@ -45,15 +45,8 @@ jobs:
         trigger: true
       - task: build
         file: grh/ci/tasks/build.yml
-
-  - name: publish-dev
-    plan:
-      - get: grh
-        trigger: true
-        passed: [build]
-      - get: version # not used, but required in order to use same publish.yml task which has it as an input
-      - task: publish
-        file: grh/ci/tasks/publish.yml
+      - task: publish-dev
+        file: grh/ci/tasks/publish-dev.yml
         params:
           DEV_VERSION: dev # change to test with a branch
           AWS_ACCESS_KEY_ID: {{AWS_ACCESS_KEY_ID}}
@@ -62,7 +55,7 @@ jobs:
   - name: run-cli-processor-on-test-repo
     plan:
       - get: grh
-        passed: [publish-dev]
+        passed: [build]
         trigger: true
       - task: run-cli-processor-on-test-repo
         file: grh/ci/tasks/run-cli-processor-on-test-repo.yml

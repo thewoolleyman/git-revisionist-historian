@@ -10,9 +10,20 @@ image_resource:
 inputs:
 - name: grh
 
+outputs:
+- name: .m2
+
+caches:
+- path: .gradle
+- path: tmp
+- path: .m2
+- path: grh/.gradle
+
 run:
   path: bash
   args:
   - -exc
   - |
-    cd grh && ./gradlew build publishGrhPublicationToConcourseArtifactRepository
+    export JAVA_TOOL_OPTIONS="-Dgradle.user.home=$(pwd)/.gradle -Dmaven.repo.local=$(pwd)/.m2 -Djava.io.tmpdir=$(pwd)/tmp"
+    cd grh
+    ./gradlew -Dorg.gradle.daemon=false build publishToMavenLocal

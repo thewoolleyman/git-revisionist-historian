@@ -9,7 +9,7 @@ image_resource:
 
 inputs:
 - name: grh
-- name: version
+- name: .m2
 
 caches:
 - path: .gradle

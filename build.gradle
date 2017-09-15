@@ -77,7 +77,7 @@ publishing {
             }
         }
         maven {
-            name "concourseArtifact"
+            mavenLocal()
             url "$project.rootDir/../maven"
         }
     }
