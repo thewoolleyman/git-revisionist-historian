@@ -10,17 +10,20 @@ image_resource:
 inputs:
 - name: grh
 
-# TODO: This approach is a MVP hack. Yes, the known_hosts hack is insecure (https://serverfault.com/a/701637/392067)
+# NOTE: This approach is an insecure hack, but the concourse task instance
+#       does not have git credentials (they only exist on the resource instance)
+# See https://serverfault.com/a/701637/392067
 # See https://www.pivotaltracker.com/story/show/150603755 for more polished solution
+# Also note we do not use set bash -x option, otherwise we'd print the key in the log
 run:
   path: bash
   args:
-  - -exc
+  - -ec
   - |
     curl -O https://s3.amazonaws.com/git-revisionist-historian/com/thewoolleyweb/grh/git-revisionist-historian/${DEV_VERSION}/git-revisionist-historian-${DEV_VERSION}.jar
     mkdir -p ~/.ssh
-    ssh-keyscan -H github.com >> ~/.ssh/known_hosts # TODO: NOT SECURE, VULNERABLE TO MITM
-    echo "${GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY}" > ~/.ssh/id_rsa # TODO: INSECURE, PRINTS IN LOG BECAUSE OF -x
+    ssh-keyscan -H github.com >> ~/.ssh/known_hosts # NOT SECURE, VULNERABLE TO MITM
+    echo "${GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY}" > ~/.ssh/id_rsa
     chmod 600 ~/.ssh/id_rsa
     git clone git@github.com:thewoolleyman/git-revisionist-historian-test-repo.git
     cd git-revisionist-historian-test-repo
