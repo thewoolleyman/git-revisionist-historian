@@ -18,7 +18,7 @@ resources:
     type: git
     source:
       uri: https://github.com/thewoolleyman/git-revisionist-historian-test-repo.git
-      branch: master
+      branch: solution
 
 ############################## SEMVER RESOURCES  ##############################
 
