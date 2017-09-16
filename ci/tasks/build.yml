@@ -32,4 +32,4 @@ run:
     mkdir -p version
     echo "dev" > version/version
     cd grh
-    ./gradlew -Dorg.gradle.daemon=false build acceptanceTest publishToMavenLocal --info
+    ./gradlew -Dorg.gradle.daemon=false build apiProcessorAcceptanceTest publishToMavenLocal --info

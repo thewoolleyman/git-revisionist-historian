@@ -4,12 +4,18 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 typealias Run = (String) -> List<String>
+typealias RunInDir = (String, String) -> List<String>
 
+// TODO: Can this extra wrapper method be avoided with a second default/optional param?
 fun run(commandLine: String): List<String> {
+  return runInDir(commandLine, ".")
+}
+
+fun runInDir(commandLine: String, directory: String): List<String> {
   val timeout: Long = 30
   val parts = commandLine.split("\\s".toRegex())
   val proc = ProcessBuilder(*parts.toTypedArray())
-    .directory(File("."))
+    .directory(File(directory))
     .redirectOutput(ProcessBuilder.Redirect.PIPE)
     .redirectError(ProcessBuilder.Redirect.PIPE)
     .start()

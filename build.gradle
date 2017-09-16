@@ -89,8 +89,19 @@ task publishLocal {
     )
 }
 
-task acceptanceTest(type: Test) {
+task acceptanceTest {
+    dependsOn "cliProcessorAcceptanceTest"
+    dependsOn "apiProcessorAcceptanceTest"
+}
+
+task apiProcessorAcceptanceTest(type: Test) {
     mustRunAfter build
     dependsOn build
-    include 'test/acceptance/**'
+    include 'test/acceptance/grh/api/**'
+}
+
+task cliProcessorAcceptanceTest(type: Test) {
+    mustRunAfter build
+    dependsOn build
+    include 'test/acceptance/grh/cli/**'
 }

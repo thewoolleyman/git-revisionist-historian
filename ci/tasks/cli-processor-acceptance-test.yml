@@ -17,11 +17,18 @@ caches:
 - path: .m2
 - path: grh/.gradle
 
-# NOTE: This approach is an insecure hack, but the concourse task instance
+# NOTE: This approach is a temporary insecure hack, because the concourse task instance
 #       does not have git credentials (they only exist on the resource instance)
 # See https://serverfault.com/a/701637/392067
-# See https://www.pivotaltracker.com/story/show/150603755 for more polished solution
 # Also note we do not use set bash -x option, otherwise we'd print the key in the log
+
+# It doesn't actually assert anything other than a zero return code.
+# There is an acceptance test which can run locally and does solutions.
+# This will eventually become a better solution, and just create a local/remote pair of
+# git repos on the fly, to avoid all the permissions issues. Then it can
+# be added as part of build.yml like the API acceptance test already is.
+# See test/acceptance/grh/cli/CliProcessorAcceptanceTest.kt:11
+# and  https://www.pivotaltracker.com/story/show/151149103
 run:
   path: bash
   args:
