@@ -59,32 +59,32 @@ jobs:
           AWS_ACCESS_KEY_ID: {{AWS_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: {{AWS_SECRET_ACCESS_KEY}}
 
-  - name: run-cli-processor-on-test-repo
+  - name: run-published-jar-with-cli
     plan:
       - get: grh
         passed: [build]
         trigger: true
-      - task: run-cli-processor-on-test-repo
-        file: grh/ci/tasks/run-cli-processor-on-test-repo.yml
+      - task: run-published-jar-with-cli
+        file: grh/ci/tasks/run-published-jar-with-cli.yml
         params:
           GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY: {{GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY}}
 
-  - name: run-api-processor-on-test-repo
+  - name: run-published-jar-with-api
     plan:
       - get: grh
-        passed: [run-cli-processor-on-test-repo]
+        passed: [run-published-jar-with-cli]
         trigger: true
       - get: git-revisionist-historian-test-repo
         trigger: true
-      - task: run-api-processor-on-test-repo
-        file: grh/ci/tasks/run-api-processor-on-test-repo.yml
+      - task: run-published-jar-with-api
+        file: grh/ci/tasks/run-published-jar-with-api.yml
         params:
           GITHUB_PERSONAL_ACCESS_TOKEN: {{GITHUB_PERSONAL_ACCESS_TOKEN}} # https://github.com/settings/tokens
 
   - name: publish-alpha
     plan:
       - get: grh
-        passed: [run-api-processor-on-test-repo]
+        passed: [run-published-jar-with-api]
       - get: version
         params: {pre: rc}
       - task: publish
