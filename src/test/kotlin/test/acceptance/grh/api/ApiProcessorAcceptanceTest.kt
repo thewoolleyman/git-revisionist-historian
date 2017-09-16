@@ -7,7 +7,7 @@ import io.kotlintest.specs.StringSpec
 import test.acceptance.grh.jarCmd
 
 // NOTE: Requires GITHUB_PERSONAL_ACCESS_TOKEN to be set - same one from ci/credentials.yml
-class ApiAcceptanceTest : StringSpec() {
+class ApiProcessorAcceptanceTest : StringSpec() {
   init {
     "works" {
       val userDir = System.getProperty("user.dir")
