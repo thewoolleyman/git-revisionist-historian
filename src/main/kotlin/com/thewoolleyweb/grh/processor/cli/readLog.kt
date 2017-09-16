@@ -2,6 +2,7 @@ package com.thewoolleyweb.grh.processor.cli
 
 import com.thewoolleyweb.grh.git.Commit
 import com.thewoolleyweb.grh.git.Log
+import com.thewoolleyweb.grh.processhelper.Run
 
 fun readLog(remote: String, branchToRevise: String, run: Run): Log {
   run("git fetch --update-head-ok $remote $branchToRevise:$branchToRevise")

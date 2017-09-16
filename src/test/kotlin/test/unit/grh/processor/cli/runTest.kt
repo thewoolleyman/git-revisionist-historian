@@ -1,6 +1,6 @@
 package test.unit.grh.processor.cli
 
-import com.thewoolleyweb.grh.processor.cli.run
+import com.thewoolleyweb.grh.processhelper.run
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldThrow
 import io.kotlintest.specs.StringSpec

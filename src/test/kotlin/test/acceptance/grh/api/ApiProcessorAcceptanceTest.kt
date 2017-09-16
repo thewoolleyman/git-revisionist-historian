@@ -1,6 +1,6 @@
 package test.acceptance.grh.api
 
-import com.thewoolleyweb.grh.processor.cli.run
+import com.thewoolleyweb.grh.processhelper.run
 import io.kotlintest.matchers.include
 import io.kotlintest.matchers.should
 import io.kotlintest.specs.StringSpec

@@ -41,7 +41,7 @@ class readLogTest : StringSpec() {
       "c02af2b43bd7cbcbaed987197ee92bc55c54bada Initial commit"
 
     )
-    val mockRun = { commandLine: String -> logLines }
+    val mockRun = { _: String -> logLines }
 
     "works" {
       readLog("origin", "solution", mockRun) shouldBe log

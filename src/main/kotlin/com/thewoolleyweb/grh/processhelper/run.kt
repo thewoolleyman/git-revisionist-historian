@@ -1,11 +1,10 @@
-package com.thewoolleyweb.grh.processor.cli
+package com.thewoolleyweb.grh.processhelper
 
 import java.io.File
 import java.util.concurrent.TimeUnit
 
 typealias Run = (String) -> List<String>
 
-// TODO: This is used by other packages like acceptance tests, should be moved up
 fun run(commandLine: String): List<String> {
   val timeout: Long = 30
   val parts = commandLine.split("\\s".toRegex())

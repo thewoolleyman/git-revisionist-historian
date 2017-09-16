@@ -2,7 +2,10 @@ package test.unit.grh.processor.api
 
 import com.thewoolleyweb.grh.processor.api.Repo
 import com.thewoolleyweb.grh.processor.api.parseRepo
-import io.kotlintest.matchers.*
+import io.kotlintest.matchers.haveSubstring
+import io.kotlintest.matchers.should
+import io.kotlintest.matchers.shouldBe
+import io.kotlintest.matchers.shouldThrow
 import io.kotlintest.specs.StringSpec
 
 class parseRepoTest : StringSpec() {
@@ -35,7 +38,7 @@ class parseRepoTest : StringSpec() {
     }
 
     "requires a name" {
-      val e= shouldThrow<RuntimeException> {
+      val e = shouldThrow<RuntimeException> {
         parseRepo("owner/")
       }
       (e.message ?: "") should haveSubstring("missing owner or name in REPO")
