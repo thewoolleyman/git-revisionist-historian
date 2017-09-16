@@ -4,7 +4,7 @@ import com.thewoolleyweb.grh.Output
 import com.thewoolleyweb.grh.args.Args
 import com.thewoolleyweb.grh.plan.Plan
 
-fun executePlan(plan: Plan, args: Args, run: (String) -> List<String>, output: Output) {
+fun executePlan(plan: Plan, args: Args, run: Run, output: Output) {
   val commandLines = renderPlan(plan, args.skipPush)
   commandLines.forEach { commandLine ->
     output("$ $commandLine\n")

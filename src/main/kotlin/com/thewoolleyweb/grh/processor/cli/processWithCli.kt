@@ -6,8 +6,8 @@ import com.thewoolleyweb.grh.output
 import com.thewoolleyweb.grh.plan.createPlan
 
 fun processWithCli(grhConfig: GrhConfig, args: Args) {
-  val log = readLog(grhConfig.remote, grhConfig.branchToRevise)
-  val plan = createPlan(grhConfig, log)
   val run = ::run
+  val log = readLog(grhConfig.remote, grhConfig.branchToRevise, run)
+  val plan = createPlan(grhConfig, log)
   executePlan(plan, args, run, ::output)
 }

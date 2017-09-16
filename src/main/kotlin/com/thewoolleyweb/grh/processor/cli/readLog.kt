@@ -3,7 +3,7 @@ package com.thewoolleyweb.grh.processor.cli
 import com.thewoolleyweb.grh.git.Commit
 import com.thewoolleyweb.grh.git.Log
 
-fun readLog(remote: String, branchToRevise: String): Log {
+fun readLog(remote: String, branchToRevise: String, run: Run): Log {
   run("git fetch --update-head-ok $remote $branchToRevise:$branchToRevise")
   val logLines = run("git log $branchToRevise --pretty=oneline")
   val logLineRegex = """^(\S+)\s(.+)$""".toRegex()

@@ -32,10 +32,19 @@ class readLogTest : StringSpec() {
         )
       )
     )
+
+    val logLines = listOf(
+      "f027007d3a55fe5b41332b4635e3b404f9ae4a17 this is an in-progress feature",
+      "cbd47635afa0c0974b3ce364d2b67dd792317b10 this is the third feature's implementation",
+      "913bbf48fb0cd75e776d90e093b9c3a1522767d7 this is the second feature's implementation",
+      "0db40c2c412984411586641d7c80c5fdd1fcb15c this is the first feature's implementation",
+      "c02af2b43bd7cbcbaed987197ee92bc55c54bada Initial commit"
+
+    )
+    val mockRun = { commandLine: String -> logLines }
+
     "works" {
-      // TODO: make this test not dependent upon the remote name and local branch, maybe
-      //       delete or rewrite it once there's an acceptance test
-      readLog("origin", "solution") shouldBe log
+      readLog("origin", "solution", mockRun) shouldBe log
     }
   }
 }
