@@ -49,6 +49,7 @@ jar {
 }
 
 test {
+    exclude 'test/acceptance/**'
     testLogging {
         exceptionFormat = 'full'
     }
@@ -88,4 +89,10 @@ task publishLocal {
             "build",
             "publishToMavenLocal"
     )
+}
+
+task acceptanceTest(type: Test) {
+    mustRunAfter build
+    dependsOn build
+    include 'test/acceptance/**'
 }

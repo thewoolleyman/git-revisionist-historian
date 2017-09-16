@@ -14,7 +14,7 @@ resources:
       uri: https://github.com/thewoolleyman/git-revisionist-historian.git
       branch: master # change to test with a branch
 
-  - name: grh-test-repo
+  - name: git-revisionist-historian-test-repo
     type: git
     source:
       uri: https://github.com/thewoolleyman/git-revisionist-historian-test-repo.git
@@ -43,8 +43,12 @@ jobs:
     plan:
       - get: grh
         trigger: true
+      - get: git-revisionist-historian-test-repo
+        trigger: true
       - task: build
         file: grh/ci/tasks/build.yml
+        params:
+          GITHUB_PERSONAL_ACCESS_TOKEN: {{GITHUB_PERSONAL_ACCESS_TOKEN}} # https://github.com/settings/tokens
       - task: publish-dev
         file: grh/ci/tasks/publish-dev.yml
         params:
@@ -68,13 +72,13 @@ jobs:
       - get: grh
         passed: [run-cli-processor-on-test-repo]
         trigger: true
-      - get: grh-test-repo
+      - get: git-revisionist-historian-test-repo
         trigger: true
       - task: run-api-processor-on-test-repo
         file: grh/ci/tasks/run-api-processor-on-test-repo.yml
         params:
           DEV_VERSION: dev # change to test with a branch
-          GITHUB_PERSONAL_ACCESS_TOKEN: {{GIT_REVISIONIST_HISTORIAN_TEST_REPO_PERSONAL_ACCESS_TOKEN}} # https://github.com/settings/tokens
+          GITHUB_PERSONAL_ACCESS_TOKEN: {{GITHUB_PERSONAL_ACCESS_TOKEN}} # https://github.com/settings/tokens
 
   - name: publish-alpha
     plan:

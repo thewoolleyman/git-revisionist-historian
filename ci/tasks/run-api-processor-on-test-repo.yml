@@ -9,7 +9,7 @@ image_resource:
 
 inputs:
 - name: grh
-- name: grh-test-repo
+- name: git-revisionist-historian-test-repo
 
 run:
   path: bash
@@ -17,5 +17,5 @@ run:
   - -exc
   - |
     curl -O https://s3.amazonaws.com/git-revisionist-historian/com/thewoolleyweb/grh/git-revisionist-historian/${DEV_VERSION}/git-revisionist-historian-${DEV_VERSION}.jar
-    cd grh-test-repo
+    cd git-revisionist-historian-test-repo
     java -jar ../git-revisionist-historian-${DEV_VERSION}.jar --repo thewoolleyman/git-revisionist-historian-test-repo --processor api
