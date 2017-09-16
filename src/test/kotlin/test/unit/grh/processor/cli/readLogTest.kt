@@ -1,4 +1,4 @@
-package test.grh.processor.cli
+package test.unit.grh.processor.cli
 
 import com.thewoolleyweb.grh.git.Commit
 import com.thewoolleyweb.grh.git.Log

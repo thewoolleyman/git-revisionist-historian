@@ -1,4 +1,4 @@
-package test.grh.args
+package test.unit.grh.args
 
 import com.thewoolleyweb.grh.args.processArgs
 import com.xenomachina.argparser.InvalidArgumentException

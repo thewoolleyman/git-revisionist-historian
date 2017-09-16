@@ -1,4 +1,4 @@
-package test.grh.config
+package test.unit.grh.config
 
 import com.thewoolleyweb.grh.config.GrhConfig
 import com.thewoolleyweb.grh.config.IncrementCommit

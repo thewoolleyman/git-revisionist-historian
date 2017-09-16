@@ -1,4 +1,4 @@
-package test.grh.processor.cli
+package test.unit.grh.processor.cli
 
 import com.thewoolleyweb.grh.processor.cli.run
 import io.kotlintest.matchers.shouldBe

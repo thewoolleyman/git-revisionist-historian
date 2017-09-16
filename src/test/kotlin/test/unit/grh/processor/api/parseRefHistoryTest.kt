@@ -1,4 +1,4 @@
-package test.grh.processor.api
+package test.unit.grh.processor.api
 
 import com.thewoolleyweb.grh.git.Commit
 import com.thewoolleyweb.grh.processor.api.parseRefHistory

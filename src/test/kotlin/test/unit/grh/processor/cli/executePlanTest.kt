@@ -1,4 +1,4 @@
-package test.grh.processor.cli
+package test.unit.grh.processor.cli
 
 import com.thewoolleyweb.grh.Output
 import com.thewoolleyweb.grh.args.Args
