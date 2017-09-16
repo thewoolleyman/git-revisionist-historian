@@ -13,6 +13,9 @@ inputs:
 
 outputs:
 - name: .m2
+# fake 'dev' version file, to fulfill the 'version' input for the publish.yml task
+# when it is used by the publish-dev task
+- name: version
 
 caches:
 - path: .gradle
@@ -26,5 +29,7 @@ run:
   - -exc
   - |
     export JAVA_TOOL_OPTIONS="-Dgradle.user.home=$(pwd)/.gradle -Dmaven.repo.local=$(pwd)/.m2 -Djava.io.tmpdir=$(pwd)/tmp"
+    mkdir -p version
+    echo "dev" > version/version
     cd grh
     ./gradlew -Dorg.gradle.daemon=false build acceptanceTest publishToMavenLocal --info

@@ -1,9 +1,7 @@
 buildscript {
     ext {
         versionFilePath = System.getenv("VERSION_FILE_PATH")
-        devVersionOverride = System.getenv("DEV_VERSION")
-        devVersion = devVersionOverride ? devVersionOverride : "dev"
-        grhVersion = versionFilePath ? new File(versionFilePath).readLines()[0] : devVersion
+        grhVersion = versionFilePath ? new File(versionFilePath).readLines()[0] : 'dev'
         argparserVersion = '2.0.3'
         fuelVersion = '1.9.0'
         klaxonVersion = '0.31'

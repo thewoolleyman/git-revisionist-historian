@@ -23,5 +23,6 @@ run:
   - -exc
   - |
     export JAVA_TOOL_OPTIONS="-Dgradle.user.home=$(pwd)/.gradle -Dmaven.repo.local=$(pwd)/.m2 -Djava.io.tmpdir=$(pwd)/tmp"
+    export VERSION_FILE_PATH=$(pwd)/version/version
     cd grh
     ./gradlew -Dorg.gradle.daemon=false publishGrhPublicationToGrhRepository

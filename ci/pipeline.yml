@@ -52,12 +52,10 @@ jobs:
       - task: cli-processor-acceptance-test
         file: grh/ci/tasks/cli-processor-acceptance-test.yml
         params:
-          DEV_VERSION: dev # change to test with a branch
           GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY: {{GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY}}
       - task: publish-dev
-        file: grh/ci/tasks/publish-dev.yml
+        file: grh/ci/tasks/publish.yml
         params:
-          DEV_VERSION: dev # change to test with a branch
           AWS_ACCESS_KEY_ID: {{AWS_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: {{AWS_SECRET_ACCESS_KEY}}
 
@@ -69,7 +67,6 @@ jobs:
       - task: run-cli-processor-on-test-repo
         file: grh/ci/tasks/run-cli-processor-on-test-repo.yml
         params:
-          DEV_VERSION: dev # change to test with a branch
           GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY: {{GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY}}
 
   - name: run-api-processor-on-test-repo
@@ -82,7 +79,6 @@ jobs:
       - task: run-api-processor-on-test-repo
         file: grh/ci/tasks/run-api-processor-on-test-repo.yml
         params:
-          DEV_VERSION: dev # change to test with a branch
           GITHUB_PERSONAL_ACCESS_TOKEN: {{GITHUB_PERSONAL_ACCESS_TOKEN}} # https://github.com/settings/tokens
 
   - name: publish-alpha
@@ -94,7 +90,6 @@ jobs:
       - task: publish
         file: grh/ci/tasks/publish.yml
         params:
-          VERSION_FILE_PATH: ../version/version
           AWS_ACCESS_KEY_ID: {{AWS_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: {{AWS_SECRET_ACCESS_KEY}}
       - put: version
@@ -109,7 +104,6 @@ jobs:
       - task: publish
         file: grh/ci/tasks/publish.yml
         params:
-          VERSION_FILE_PATH: ../version/version
           AWS_ACCESS_KEY_ID: {{AWS_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: {{AWS_SECRET_ACCESS_KEY}}
       - put: version
