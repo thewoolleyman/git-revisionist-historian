@@ -49,6 +49,11 @@ jobs:
         file: grh/ci/tasks/build.yml
         params:
           GITHUB_PERSONAL_ACCESS_TOKEN: {{GITHUB_PERSONAL_ACCESS_TOKEN}} # https://github.com/settings/tokens
+      - task: cli-processor-acceptance-test
+        file: grh/ci/tasks/cli-processor-acceptance-test.yml
+        params:
+          DEV_VERSION: dev # change to test with a branch
+          GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY: {{GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY}}
       - task: publish-dev
         file: grh/ci/tasks/publish-dev.yml
         params:
