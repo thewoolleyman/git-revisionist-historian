@@ -8,7 +8,8 @@ import com.xenomachina.argparser.ShowHelpException
 
 fun main(arguments: Array<String>) {
   val args = try {
-    processArgs(arguments)
+    val apiToken = System.getenv("GITHUB_PERSONAL_ACCESS_TOKEN")
+    processArgs(arguments, apiToken)
   } catch (e: ShowHelpException) {
     e.printAndExit()
   } catch (e: InvalidArgumentException) {

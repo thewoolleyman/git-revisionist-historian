@@ -23,7 +23,7 @@ class processArgsTest : StringSpec() {
 
     "supports all valid PROCESSOR values" {
       processArgs(arrayOf("-p", "cli")).processor shouldBe "cli"
-      processArgs(arrayOf("-p", "api")).processor shouldBe "api"
+      processArgs(arrayOf("-p", "api"), "apiToken").processor shouldBe "api"
     }
 
     "validates --processor/-p" {
@@ -66,8 +66,8 @@ class processArgsTest : StringSpec() {
     }
 
     "can set --repo/-r" {
-      processArgs(arrayOf("--repo", "owner/name", "-p", "api")).repo shouldBe "owner/name"
-      processArgs(arrayOf("-r", "owner/name", "-p", "api")).repo shouldBe "owner/name"
+      processArgs(arrayOf("--repo", "owner/name", "-p", "api"), "apiToken").repo shouldBe "owner/name"
+      processArgs(arrayOf("-r", "owner/name", "-p", "api"), "apiToken").repo shouldBe "owner/name"
     }
 
     "validates format of provided --repo/-r" {
@@ -85,8 +85,8 @@ class processArgsTest : StringSpec() {
     }
 
     "can set --v-3-endpoint/-3" {
-      processArgs(arrayOf("--v-3-endpoint", "http://localhost", "-r", "owner/name", "-p", "api")).v3Endpoint shouldBe "http://localhost"
-      processArgs(arrayOf("-3", "http://localhost", "-r", "owner/name", "-p", "api")).v3Endpoint shouldBe "http://localhost"
+      processArgs(arrayOf("--v-3-endpoint", "http://localhost", "-r", "owner/name", "-p", "api"), "apiToken").v3Endpoint shouldBe "http://localhost"
+      processArgs(arrayOf("-3", "http://localhost", "-r", "owner/name", "-p", "api"), "apiToken").v3Endpoint shouldBe "http://localhost"
     }
 
     "only allows --v-3-endpoint/-3 for --processor=api" {
@@ -97,8 +97,8 @@ class processArgsTest : StringSpec() {
     }
 
     "can set --v-4-endpoint/-4" {
-      processArgs(arrayOf("--v-4-endpoint", "http://localhost", "-r", "owner/name", "-p", "api")).v4Endpoint shouldBe "http://localhost"
-      processArgs(arrayOf("-4", "http://localhost", "-r", "owner/name", "-p", "api")).v4Endpoint shouldBe "http://localhost"
+      processArgs(arrayOf("--v-4-endpoint", "http://localhost", "-r", "owner/name", "-p", "api"), "apiToken").v4Endpoint shouldBe "http://localhost"
+      processArgs(arrayOf("-4", "http://localhost", "-r", "owner/name", "-p", "api"), "apiToken").v4Endpoint shouldBe "http://localhost"
     }
 
     "only allows --v-4-endpoint/-4 for --processor=api" {
@@ -106,6 +106,13 @@ class processArgsTest : StringSpec() {
         processArgs(arrayOf("--v-4-endpoint", "http://localhost", "-p", "cli"))
       }
       e.message shouldBe ("--v-4-endpoint option is only valid when --processor=api")
+    }
+
+    "requires GITHUB_PERSONAL_ACCESS_TOKEN for --processor=api" {
+      val e = shouldThrow<InvalidArgumentException> {
+        processArgs(arrayOf("--v-4-endpoint", "http://localhost", "-p", "api"))
+      }
+      e.message shouldBe ("GITHUB_PERSONAL_ACCESS_TOKEN env var is required when --processor=api")
     }
   }
 }
