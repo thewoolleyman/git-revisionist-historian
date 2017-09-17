@@ -19,6 +19,7 @@ fun processArgs(arguments: Array<String>, apiToken: String? = null): Args {
   }
 
   if (args.processor == "api") {
+    validateRepo(args)
     validateApiToken(apiToken)
   }
 
@@ -37,6 +38,12 @@ private fun validateApiOnlyArgs(args: Args) {
     throw InvalidArgumentException("--v-3-endpoint option is only valid when --processor=api")
   if (args.v4Endpoint != null)
     throw InvalidArgumentException("--v-4-endpoint option is only valid when --processor=api")
+}
+
+private fun validateRepo(args: Args) {
+  if (args.repo.isNullOrBlank()) {
+    throw InvalidArgumentException("REPO is required when --processor=api")
+  }
 }
 
 private fun validateApiToken(apiToken: String?) {
