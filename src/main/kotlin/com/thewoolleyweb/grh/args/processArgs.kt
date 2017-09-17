@@ -10,6 +10,11 @@ fun processArgs(arguments: Array<String>, apiToken: String? = null): Args {
   // force help to be handled
   parser.force()
 
+  if (args.processor == "api") {
+    validateRepo(args)
+    validateApiToken(apiToken)
+  }
+
   if (args.processor != "cli") {
     validateCliOnlyArgs(args)
   }
@@ -18,26 +23,23 @@ fun processArgs(arguments: Array<String>, apiToken: String? = null): Args {
     validateApiOnlyArgs(args)
   }
 
-  if (args.processor == "api") {
-    validateRepo(args)
-    validateApiToken(apiToken)
-  }
-
   return args
 }
 
 private fun validateCliOnlyArgs(args: Args) {
+  if (args.remote != "origin")
+    throw InvalidArgumentException("--remote|-o option is only valid when --processor=cli")
   if (args.skipPush)
-    throw InvalidArgumentException("--skip-push option is only valid when --processor=cli")
+    throw InvalidArgumentException("--skip-push|-s option is only valid when --processor=cli")
 }
 
 private fun validateApiOnlyArgs(args: Args) {
   if (args.repo != null)
-    throw InvalidArgumentException("--repo option is only valid when --processor=api")
+    throw InvalidArgumentException("--repo|-r option is only valid when --processor=api")
   if (args.v3Endpoint != null)
-    throw InvalidArgumentException("--v-3-endpoint option is only valid when --processor=api")
+    throw InvalidArgumentException("--v-3-endpoint|-3 option is only valid when --processor=api")
   if (args.v4Endpoint != null)
-    throw InvalidArgumentException("--v-4-endpoint option is only valid when --processor=api")
+    throw InvalidArgumentException("--v-4-endpoint|-4 option is only valid when --processor=api")
 }
 
 private fun validateRepo(args: Args) {

@@ -58,11 +58,24 @@ class processArgsTest : StringSpec() {
       processArgs(arrayOf("-p", "cli")).skipPush shouldBe false
     }
 
+    "can set and default --remote/-o" {
+      processArgs(arrayOf("--remote", "upstream", "-p", "cli")).remote shouldBe "upstream"
+      processArgs(arrayOf("-o", "upstream", "-p", "cli")).remote shouldBe "upstream"
+      processArgs(arrayOf("-p", "cli")).remote shouldBe "origin"
+    }
+
     "only allows --skip-push/-s for --processor=cli" {
       val e = shouldThrow<InvalidArgumentException> {
-        processArgs(arrayOf("--skip-push", "-p", "api"))
+        processArgs(arrayOf("--skip-push", "-p", "api", "-r", "owner/name"), "apiToken")
       }
-      e.message shouldBe ("--skip-push option is only valid when --processor=cli")
+      e.message shouldBe ("--skip-push|-s option is only valid when --processor=cli")
+    }
+
+    "only allows --remote/-o for --processor=cli" {
+      val e = shouldThrow<InvalidArgumentException> {
+        processArgs(arrayOf("--remote", "anythingButTheDefaultOfOrigin", "-p", "api", "-r", "owner/name"), "apiToken")
+      }
+      e.message shouldBe ("--remote|-o option is only valid when --processor=cli")
     }
 
     "can set --repo/-r" {
@@ -81,7 +94,7 @@ class processArgsTest : StringSpec() {
       val e = shouldThrow<InvalidArgumentException> {
         processArgs(arrayOf("--repo", "owner/name", "-p", "cli"))
       }
-      e.message shouldBe ("--repo option is only valid when --processor=api")
+      e.message shouldBe ("--repo|-r option is only valid when --processor=api")
     }
 
     "requires REPO for --processor=api" {
@@ -100,7 +113,7 @@ class processArgsTest : StringSpec() {
       val e = shouldThrow<InvalidArgumentException> {
         processArgs(arrayOf("--v-3-endpoint", "http://localhost", "-p", "cli"))
       }
-      e.message shouldBe ("--v-3-endpoint option is only valid when --processor=api")
+      e.message shouldBe ("--v-3-endpoint|-3 option is only valid when --processor=api")
     }
 
     "can set --v-4-endpoint/-4" {
@@ -112,7 +125,7 @@ class processArgsTest : StringSpec() {
       val e = shouldThrow<InvalidArgumentException> {
         processArgs(arrayOf("--v-4-endpoint", "http://localhost", "-p", "cli"))
       }
-      e.message shouldBe ("--v-4-endpoint option is only valid when --processor=api")
+      e.message shouldBe ("--v-4-endpoint|-4 option is only valid when --processor=api")
     }
 
     "requires GITHUB_PERSONAL_ACCESS_TOKEN for --processor=api" {

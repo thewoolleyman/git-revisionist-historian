@@ -8,7 +8,6 @@ fun parseConfig(rawValue: StringBuilder): GrhConfig {
     ?: throw IllegalArgumentException("branchToRevise is required")
   val incrementCommits: List<IncrementCommit>? = loadIncrementCommits(incrementCommitsJsonArray)
   return GrhConfig(
-    remote = configJsonObject.string("remote") ?: "origin",
     branchToRevise = configJsonObject.string("branchToRevise")
       ?: throw IllegalArgumentException("branchToRevise is required"),
     incrementCommits = incrementCommits ?: arrayListOf()

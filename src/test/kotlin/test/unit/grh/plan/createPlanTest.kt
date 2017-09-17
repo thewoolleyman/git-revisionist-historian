@@ -14,7 +14,6 @@ import io.kotlintest.specs.StringSpec
 class createPlanTest : StringSpec() {
   init {
     val config = GrhConfig(
-      remote = "origin",
       branchToRevise = "solution",
       incrementCommits = listOf(
         IncrementCommit(

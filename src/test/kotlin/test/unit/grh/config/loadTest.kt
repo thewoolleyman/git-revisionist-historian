@@ -32,10 +32,6 @@ class loadTest : StringSpec() {
         """.trimMargin()
     val grhConfig = parseConfig(StringBuilder(jsonText))
 
-    "remote" {
-      grhConfig.remote shouldBe "origin"
-    }
-
     "branchToRevise" {
       grhConfig.branchToRevise shouldBe "solution"
     }
