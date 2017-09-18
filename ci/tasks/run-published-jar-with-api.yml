@@ -17,5 +17,4 @@ run:
   - -exc
   - |
     curl -O https://s3.amazonaws.com/git-revisionist-historian/com/thewoolleyweb/grh/git-revisionist-historian/dev/git-revisionist-historian-dev.jar
-    cd git-revisionist-historian-test-repo
-    java -jar ../git-revisionist-historian-dev.jar --repo thewoolleyman/git-revisionist-historian-test-repo --processor api
+    java -jar git-revisionist-historian-dev.jar --config https://raw.githubusercontent.com/thewoolleyman/git-revisionist-historian-test-repo/master/grh-config.json --repo thewoolleyman/git-revisionist-historian-test-repo --processor api

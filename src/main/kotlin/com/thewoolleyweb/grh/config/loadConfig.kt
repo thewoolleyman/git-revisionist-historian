@@ -1,12 +1,22 @@
 package com.thewoolleyweb.grh.config
 
-import java.io.File
-import java.nio.file.Paths
+import java.net.MalformedURLException
+import java.net.URL
 
-fun loadConfig(configFile: String) = parseConfig(StringBuilder(readConfigFile(configFile)))
+fun loadConfig(config: String): GrhConfig {
+  val configText = if (isURI(config)) {
+    readConfigURL(config)
+  } else {
+    readConfigFile(config)
+  }
+  return parseConfig(StringBuilder(configText))
+}
 
-fun readConfigFile(configFile: String): String {
-  val currentPath = Paths.get("").toAbsolutePath().toString()
-  println("Reading config file '$configFile, current path is $currentPath")
-  return File(configFile).inputStream().bufferedReader().use { it.readText() }
+private fun isURI(config: String): Boolean {
+  return try {
+    URL(config)
+    true
+  } catch (e: MalformedURLException) {
+    false
+  }
 }

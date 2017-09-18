@@ -24,6 +24,7 @@ dependencies {
         jcenter()
     }
 
+    compile "com.andreapivetta.kolor:kolor:0.0.2"
     compile "com.beust:klaxon:$klaxonVersion"
     compile "com.xenomachina:kotlin-argparser:$argparserVersion"
     compile "com.github.kittinunf.fuel:fuel:$fuelVersion"

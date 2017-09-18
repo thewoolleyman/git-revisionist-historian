@@ -14,12 +14,6 @@ resources:
       uri: https://github.com/thewoolleyman/git-revisionist-historian.git
       branch: master # change to test with a branch
 
-  - name: git-revisionist-historian-test-repo
-    type: git
-    source:
-      uri: https://github.com/thewoolleyman/git-revisionist-historian-test-repo.git
-      branch: solution
-
 ############################## SEMVER RESOURCES  ##############################
 
   - name: version
@@ -42,8 +36,6 @@ jobs:
   - name: build
     plan:
       - get: grh
-        trigger: true
-      - get: git-revisionist-historian-test-repo
         trigger: true
       - task: build
         file: grh/ci/tasks/build.yml
@@ -73,8 +65,6 @@ jobs:
     plan:
       - get: grh
         passed: [run-published-jar-with-cli]
-        trigger: true
-      - get: git-revisionist-historian-test-repo
         trigger: true
       - task: run-published-jar-with-api
         file: grh/ci/tasks/run-published-jar-with-api.yml

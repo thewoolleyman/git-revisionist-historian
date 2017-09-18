@@ -10,9 +10,11 @@ import test.acceptance.grh.jarCmd
 class ApiProcessorAcceptanceTest : StringSpec() {
   init {
     "works" {
-      val userDir = System.getProperty("user.dir")
+      val configURL =
+        "https://raw.githubusercontent.com/thewoolleyman/git-revisionist-historian-test-repo/master/grh-config.json"
+
       val cmd = jarCmd(
-        "--config $userDir/../git-revisionist-historian-test-repo/grh-config.json " +
+        "--config $configURL " +
           "--repo thewoolleyman/git-revisionist-historian-test-repo " +
           "--processor api"
       )
