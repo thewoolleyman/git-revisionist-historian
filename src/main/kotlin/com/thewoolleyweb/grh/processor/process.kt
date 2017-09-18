@@ -7,9 +7,9 @@ import com.thewoolleyweb.grh.processor.cli.processWithCli
 
 
 fun process(args: Args) {
-  val configFile = args.configFile
-  println("Running with config file $configFile")
-  val grhConfig = loadConfig(configFile)
+  val config = args.config
+  println("Running with config $config")
+  val grhConfig = loadConfig(config)
   val processor = if (args.processor == "cli") {
     ::processWithCli
   } else {

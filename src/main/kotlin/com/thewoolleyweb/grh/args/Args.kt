@@ -5,13 +5,13 @@ import com.xenomachina.argparser.InvalidArgumentException
 import com.xenomachina.argparser.default
 
 class Args(parser: ArgParser) {
-  val configFile by parser.storing("-c", "--config", help = "Path to config file")
+  val config by parser.storing("-c", "--config", help = "Path or URI to config file")
     .default("./grh-config.json")
 
   val dryRun by parser.flagging("-n", "--dry-run", help = "Print commands to invoke but don't actually make changes")
 
   val processor by parser.storing("-p", "--processor",
-    help = "Processor to use. 'cli' = git command line, 'api' = Github API.") { this }
+    help = "Processor to use. 'cli' = git command line, 'api' = Github API") { this }
     .addValidator {
       val validProcessors = listOf("cli", "api")
       if (!validProcessors.contains(value))

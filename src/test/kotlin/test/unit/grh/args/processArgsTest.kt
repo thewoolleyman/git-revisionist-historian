@@ -41,9 +41,9 @@ class processArgsTest : StringSpec() {
     }
 
     "can set and default --config/-c" {
-      processArgs(arrayOf("--config", "./config.json", "-p", "cli")).configFile shouldBe "./config.json"
-      processArgs(arrayOf("-c", "./config.json", "-p", "cli")).configFile shouldBe "./config.json"
-      processArgs(arrayOf("-p", "cli")).configFile shouldBe "./grh-config.json"
+      processArgs(arrayOf("--config", "./config.json", "-p", "cli")).config shouldBe "./config.json"
+      processArgs(arrayOf("-c", "./config.json", "-p", "cli")).config shouldBe "./config.json"
+      processArgs(arrayOf("-p", "cli")).config shouldBe "./grh-config.json"
     }
 
     "can set and default --dry-run/-n" {
