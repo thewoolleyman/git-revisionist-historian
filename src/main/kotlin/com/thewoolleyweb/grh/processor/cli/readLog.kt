@@ -19,7 +19,6 @@ fun readLog(remote: String, branchToRevise: String, run: Run): Log {
         message = it.groups[2]?.value ?: throw RuntimeException("Unable to parse git commit message")
       )
     }
-    .reversed()
   return Log(
     commits = commits
   )

@@ -24,12 +24,12 @@ class CliProcessorAcceptanceTest : StringSpec() {
 
       val outputString = output.joinToString("\n")
 
-      outputString should include("$ git tag --force feature1-start 94a5933108e092ce84053435719aaa5e1356bfad")
-      outputString should include("$ git tag --force feature1-finish a2eccc4625943b9a523b1894871638276f908209")
-      outputString should include("$ git tag --force feature2-start a2eccc4625943b9a523b1894871638276f908209")
-      outputString should include("$ git tag --force feature2-finish 49fe2b8bda48d687143ef69ec1d7c85067499dfd")
-      outputString should include("$ git tag --force feature3-start 49fe2b8bda48d687143ef69ec1d7c85067499dfd")
-      outputString should include("$ git tag --force feature3-finish df6492a6b22271feea618f9c723427b7df0830df")
+      outputString should include("$ git tag --force feature3-finish ba05591c3e0595f005ae77e6b0ac0722b1588c90")
+      outputString should include("$ git tag --force feature3-start fa4f5d259b90fca8798fa31080cf6918f07353b5")
+      outputString should include("$ git tag --force feature2-finish fa4f5d259b90fca8798fa31080cf6918f07353b5")
+      outputString should include("$ git tag --force feature2-start e09016485ec4b2ec9b36d36210b2c09df0f8bef1")
+      outputString should include("$ git tag --force feature1-finish e09016485ec4b2ec9b36d36210b2c09df0f8bef1")
+      outputString should include("$ git tag --force feature1-start 891efbddf4bcbb5db2369b502771c11569ff0881")
       outputString should include("$ git push --force --tags")
     }
   }

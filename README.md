@@ -100,6 +100,9 @@ tag requires going through multiple steps.
 
 Config file format
 
+* NOTE: The commits in the config file are listed in reverse chronological order by convention,
+  to match the way `git log` and the Github API work.  But, it should not matter what order they
+  are listed in (once [this story](https://www.pivotaltracker.com/story/show/150258665) is done).
 * `branchToRevise`: required, string
 * `incrementCommits`: required, array of `incrementCommit` objects, which consist of:
   * `message`: required, *case insensitive* regular expression (via Kotlin `message.toRegex(RegexOption.IGNORE_CASE)`)
@@ -111,18 +114,9 @@ Config file format
   "branchToRevise": "solution",
   "incrementCommits": [
     {
-      "message": "initial commit",
-      "tags": ["feature1-start"]
-    },
-    {
-      "message": "first feature",
-      "tags": ["feature1-finish","feature2-start"],
-      "branches": ["feature1"] 
-    },
-    {
-      "message": "second feature",
-      "tags": ["feature2-finish", "feature3-start"],
-      "branches": ["feature2"] 
+      "message": "in-progress feature",
+      "tags": [],
+      "branches": [] 
     },
     {
       "message": "third feature",
@@ -130,9 +124,18 @@ Config file format
       "branches": ["feature3"] 
     },
     {
-      "message": "in-progress feature",
-      "tags": [],
-      "branches": [] 
+      "message": "second feature",
+      "tags": ["feature2-finish", "feature3-start"],
+      "branches": ["feature2"] 
+    },
+    {
+      "message": "first feature",
+      "tags": ["feature1-finish","feature2-start"],
+      "branches": ["feature1"] 
+    },
+    {
+      "message": "initial commit",
+      "tags": ["feature1-start"]
     }
   ]
 }

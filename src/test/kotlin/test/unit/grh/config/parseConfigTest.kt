@@ -13,19 +13,19 @@ class parseConfigTest : StringSpec() {
             |  "branchToRevise": "solution",
             |  "incrementCommits": [
             |    {
-            |      "message": "first feature",
-            |      "tags": ["feature1-finish","feature2-start"],
-            |      "branches": ["feature1","another-branch"]
+            |      "message": "in-progress feature with omitted tags and branches",
+            |      "tags": [],
+            |      "branches": []
             |    },
             |    {
             |      "message": "in-progress feature with empty tags and branches",
             |      "tags": [],
             |      "branches": []
-            |    }
+            |    },
             |    {
-            |      "message": "in-progress feature with omitted tags and branches",
-            |      "tags": [],
-            |      "branches": []
+            |      "message": "first feature",
+            |      "tags": ["feature1-finish","feature2-start"],
+            |      "branches": ["feature1","another-branch"]
             |    }
             |  ]
             |}
@@ -44,10 +44,10 @@ class parseConfigTest : StringSpec() {
     }
 
     "incrementCommits" {
-      val incrementCommit = grhConfig.incrementCommits[0]
-      incrementCommit.message shouldBe "first feature"
-      incrementCommit.tags shouldBe listOf("feature1-finish", "feature2-start")
+      val incrementCommit = grhConfig.incrementCommits[2]
       incrementCommit.branches shouldBe listOf("feature1", "another-branch")
+      incrementCommit.tags shouldBe listOf("feature1-finish", "feature2-start")
+      incrementCommit.message shouldBe "first feature"
     }
 
     "incrementCommits with empty tags and branches" {
@@ -58,7 +58,7 @@ class parseConfigTest : StringSpec() {
     }
 
     "incrementCommits with omitted tags and branches" {
-      val omittedIncrementCommit = grhConfig.incrementCommits[2]
+      val omittedIncrementCommit = grhConfig.incrementCommits[0]
       omittedIncrementCommit.message shouldBe "in-progress feature with omitted tags and branches"
       omittedIncrementCommit.tags shouldBe emptyList<String>()
       omittedIncrementCommit.branches shouldBe emptyList<String>()

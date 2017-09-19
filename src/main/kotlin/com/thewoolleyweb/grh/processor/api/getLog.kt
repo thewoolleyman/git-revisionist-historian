@@ -15,6 +15,6 @@ fun getLog(v4Endpoint: String, repo: Repo, ref: String,
   result.failure { error -> throw error } // TODO: maybe print request/response info on failure?
 
   return Log(
-    commits = commits.reversed()
+    commits = commits
   )
 }

@@ -36,14 +36,14 @@ class getLogTest : StringSpec() {
     |            "edges": [
     |              {
     |                "node": {
-    |                  "oid": "c02af2b43bd7cbcbaed987197ee92bc55c54bada",
-    |                  "message": "Initial commit"
+    |                  "oid": "0db40c2c412984411586641d7c80c5fdd1fcb15c",
+    |                  "message": "this is the first feature's implementation"
     |                }
     |              },
     |              {
     |                "node": {
-    |                  "oid": "0db40c2c412984411586641d7c80c5fdd1fcb15c",
-    |                  "message": "this is the first feature's implementation"
+    |                  "oid": "c02af2b43bd7cbcbaed987197ee92bc55c54bada",
+    |                  "message": "Initial commit"
     |                }
     |              }
     |            ]
@@ -63,7 +63,6 @@ class getLogTest : StringSpec() {
     }
 
     "returns commits in reverse order" {
-      //      getLog("solution", stubArgs) shouldBe log
       getLog(stubEndpoint, stubRepo, ref, mockGetRefHistory) shouldBe log
     }
   }
