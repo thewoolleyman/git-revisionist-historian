@@ -14,6 +14,13 @@ resources:
       uri: https://github.com/thewoolleyman/git-revisionist-historian.git
       branch: master # change to test with a branch
 
+  # Read-only, only used for triggering (and reading config for run-published-jar-with-api), not updating
+  - name: git-revisionist-historian-test-repo
+    type: git
+    source:
+      uri: https://github.com/thewoolleyman/git-revisionist-historian-test-repo.git
+      branch: solution
+
 ############################## SEMVER RESOURCES  ##############################
 
   - name: version
@@ -37,11 +44,15 @@ jobs:
     plan:
       - get: grh
         trigger: true
+      - get: git-revisionist-historian-test-repo
+        trigger: true
+        # Read-only, only used for triggering acceptance tests, not updating
       - task: build
         file: grh/ci/tasks/build.yml
         params:
           GITHUB_PERSONAL_ACCESS_TOKEN: {{GITHUB_PERSONAL_ACCESS_TOKEN}} # https://github.com/settings/tokens
       - task: cli-processor-acceptance-test
+        # Note that this has the config URL hardcoded in the test so it doesn't use the local test repo clone at all
         file: grh/ci/tasks/cli-processor-acceptance-test.yml
         params:
           GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY: {{GIT_REVISIONIST_HISTORIAN_TEST_REPO_WRITEABLE_DEPLOY_KEY}}
@@ -66,6 +77,9 @@ jobs:
       - get: grh
         passed: [run-published-jar-with-cli]
         trigger: true
+      - get: git-revisionist-historian-test-repo
+        trigger: true
+        # Read-only, only used for triggering and reading config, not updating
       - task: run-published-jar-with-api
         file: grh/ci/tasks/run-published-jar-with-api.yml
         params:

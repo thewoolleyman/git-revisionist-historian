@@ -11,7 +11,7 @@ class ApiProcessorAcceptanceTest : StringSpec() {
   init {
     "works" {
       val configURL =
-        "https://raw.githubusercontent.com/thewoolleyman/git-revisionist-historian-test-repo/master/grh-config.json"
+        "https://raw.githubusercontent.com/thewoolleyman/git-revisionist-historian-test-repo/solution/grh-config.json"
 
       val cmd = jarCmd(
         "--config $configURL " +
