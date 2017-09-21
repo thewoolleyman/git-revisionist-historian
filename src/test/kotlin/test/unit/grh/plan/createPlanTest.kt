@@ -18,18 +18,15 @@ class createPlanTest : StringSpec() {
       incrementCommits = listOf(
         IncrementCommit(
           message = "initial commit", // Note that this will be an IGNORE_CASE regex match
-          tags = listOf("feature1-start"),
-          branches = listOf("feature1")
+          tags = listOf("feature1-start")
         ),
         IncrementCommit(
           message = "first feature",
-          tags = listOf("feature1-finish", "feature2-start"),
-          branches = listOf("feature1", "another-branch")
+          tags = listOf("feature1-finish", "feature2-start")
         ),
         IncrementCommit(
           message = "second feature",
-          tags = listOf("feature2-finish"),
-          branches = listOf("feature2")
+          tags = listOf("feature2-finish")
         )
       )
     )

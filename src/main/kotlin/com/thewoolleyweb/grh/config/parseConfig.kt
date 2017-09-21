@@ -18,7 +18,6 @@ private fun loadIncrementCommits(incrementCommitsJsonArray: JsonArray<JsonObject
   : List<IncrementCommit> = incrementCommitsJsonArray.map {
   IncrementCommit(
     message = it.string("message") ?: throw IllegalArgumentException("incrementCommit message is required"),
-    tags = it.array<String>("tags")?.map { it } ?: arrayListOf(),
-    branches = it.array<String>("branches")?.map { it } ?: arrayListOf()
+    tags = it.array<String>("tags")?.map { it } ?: arrayListOf()
   )
 }

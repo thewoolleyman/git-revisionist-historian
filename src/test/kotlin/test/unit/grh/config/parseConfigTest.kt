@@ -13,19 +13,16 @@ class parseConfigTest : StringSpec() {
             |  "branchToRevise": "solution",
             |  "incrementCommits": [
             |    {
-            |      "message": "in-progress feature with omitted tags and branches",
-            |      "tags": [],
-            |      "branches": []
+            |      "message": "in-progress feature with omitted tags",
+            |      "tags": []
             |    },
             |    {
-            |      "message": "in-progress feature with empty tags and branches",
-            |      "tags": [],
-            |      "branches": []
+            |      "message": "in-progress feature with empty tags",
+            |      "tags": []
             |    },
             |    {
             |      "message": "first feature",
-            |      "tags": ["feature1-finish","feature2-start"],
-            |      "branches": ["feature1","another-branch"]
+            |      "tags": ["feature1-finish","feature2-start"]
             |    }
             |  ]
             |}
@@ -45,23 +42,20 @@ class parseConfigTest : StringSpec() {
 
     "incrementCommits" {
       val incrementCommit = grhConfig.incrementCommits[2]
-      incrementCommit.branches shouldBe listOf("feature1", "another-branch")
       incrementCommit.tags shouldBe listOf("feature1-finish", "feature2-start")
       incrementCommit.message shouldBe "first feature"
     }
 
-    "incrementCommits with empty tags and branches" {
+    "incrementCommits with empty tags" {
       val emptyIncrementCommit = grhConfig.incrementCommits[1]
-      emptyIncrementCommit.message shouldBe "in-progress feature with empty tags and branches"
+      emptyIncrementCommit.message shouldBe "in-progress feature with empty tags"
       emptyIncrementCommit.tags shouldBe emptyList<String>()
-      emptyIncrementCommit.branches shouldBe emptyList<String>()
     }
 
-    "incrementCommits with omitted tags and branches" {
+    "incrementCommits with omitted tags" {
       val omittedIncrementCommit = grhConfig.incrementCommits[0]
-      omittedIncrementCommit.message shouldBe "in-progress feature with omitted tags and branches"
+      omittedIncrementCommit.message shouldBe "in-progress feature with omitted tags"
       omittedIncrementCommit.tags shouldBe emptyList<String>()
-      omittedIncrementCommit.branches shouldBe emptyList<String>()
     }
 
     "incrementCommits error" {

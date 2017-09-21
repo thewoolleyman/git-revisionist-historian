@@ -27,7 +27,7 @@ class Args(parser: ArgParser) {
     }
 
   val skipPush by parser.flagging("-s", "--skip-push",
-    help = "Apply revised tags/branches locally, but do not automatically push. Only valid for PROCESSOR=cli")
+    help = "Apply revised tags locally, but do not automatically push. Only valid for PROCESSOR=cli")
 
   val remote by parser.storing("-o", "--remote",
     help = "Name of the remote repository in the local git config. Only valid for PROCESSOR=cli")
