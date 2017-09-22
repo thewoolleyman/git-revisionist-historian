@@ -4,6 +4,7 @@ import com.thewoolleyweb.grh.args.Args
 import com.thewoolleyweb.grh.config.loadConfig
 import com.thewoolleyweb.grh.processor.api.processWithApi
 import com.thewoolleyweb.grh.processor.cli.processWithCli
+import org.springframework.beans.factory.annotation.Autowired
 
 
 fun process(args: Args) {
