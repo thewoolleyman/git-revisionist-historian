@@ -11,8 +11,9 @@ resources:
   - name: grh
     type: git
     source:
-      uri: https://github.com/thewoolleyman/git-revisionist-historian.git
+      uri: git@github.com:thewoolleyman/git-revisionist-historian.git
       branch: master # change to test with a branch
+      private_key: {{GIT_REVISIONIST_HISTORIAN_WRITEABLE_DEPLOY_KEY}}
 
   # Read-only, only used for triggering (and reading config for run-published-jar-with-api), not updating
   - name: git-revisionist-historian-test-repo
@@ -98,6 +99,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: {{AWS_SECRET_ACCESS_KEY}}
       - put: version
         params: {file: version/version}
+      - put: grh
+        params: {repository: grh, tag: version/version}
 
   - name: publish-final
     plan:
@@ -112,6 +115,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: {{AWS_SECRET_ACCESS_KEY}}
       - put: version
         params: {file: version/version}
+      - put: grh
+        params: {repository: grh, tag: version/version}
 
   - name: bump-major
     plan:
