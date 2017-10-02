@@ -30,8 +30,8 @@ fun getRefHistory(endpoint: String, repo: Repo, ref: String): FuelReturnValue {
   val body = """{"query": "$graphqlQuery"}"""
   return endpoint
     .httpPost(listOf())
-    .body(body)
     .header(v4Headers())
+    .body(body)
     .responseString()
 }
 

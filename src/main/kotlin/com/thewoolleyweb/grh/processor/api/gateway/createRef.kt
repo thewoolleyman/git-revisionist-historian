@@ -21,7 +21,6 @@ fun createRef(endpoint: String, repo: Repo, ref: String, sha: String):
     .authenticate("", System.getenv("GITHUB_PERSONAL_ACCESS_TOKEN"))
     .header(mapOf("Content-Type" to "application/json"))
     .body(postBody)
-    .header(mapOf("Content-Type" to "application/json"))
     .responseString()
 }
 
