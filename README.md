@@ -1,19 +1,20 @@
 [Pivotal Tracker Project](https://www.pivotaltracker.com/n/projects/2092368)
 
-# IMPORTANT ALPHA NOTES
-
-This project is a work in progress.  See the [Pivotal Tracker Project](https://www.pivotaltracker.com/n/projects/2092368)
-for current status.  Note the following known issues:
-
-* **Versioning/Publishing approach is being worked out** - for now obtain the latest dev jar via
-  `curl -O https://s3.amazonaws.com/git-revisionist-historian/com/thewoolleyweb/grh/git-revisionist-historian/dev/git-revisionist-historian-dev.jar`
-* **There is not yet a native git extension executable "`git-rh`" (invokable as `git rh` when it
-  is on the path), so for now assume all occurrences of `git rh` in the docs to be replaced with
-  `java -jar path/to/git-revisionist-historian.jar [options...]`**.  See "Building and Running Locally" below and
-  watch [this story](https://www.pivotaltracker.com/story/show/150307700)
-  and [this story](https://www.pivotaltracker.com/story/show/150603755) for details.
-
 # git-revisionist-historian
+
+# TL;DR
+
+* Automatically re-applies tags to rebased branches, based on commit messages.
+* It is run as an executable CLI tool - currently only as an executable jar,
+  but [could be published as a native binary](https://www.pivotaltracker.com/story/show/150307700))
+* It has two "processer" modes:
+  * `cli`, which uses the git CLI and can be manually run in a local git repo
+  * `api`, which uses the github API and can be run on CI (even Concourse, where you don't have
+    write permission on the build job instance's git clone)
+* This project is a work in progress.  See the [Pivotal Tracker Project](https://www.pivotaltracker.com/n/projects/2092368)
+  for current status.
+
+# What it does
 
 Manages updates to tags of example/instructional repositories which are built up from multiple incremental
 changes, and automatically applies tags to them based on unique strings in the commit message.
@@ -45,9 +46,10 @@ tag requires going through multiple steps.~~(actually not yet, see [this story](
 
 ***(TODO: rewrite this to a more standard and concise manpage-like syntax format)***
 
-* An executable CLI tool: `git-rh` - will act as `git rh` extension when added to path.
+* An executable CLI tool: `java -jar path/to/the.jar`.  Could eventually be published as a `git-rh` native executable which
+  would act as `java -jar path/to/the.jar` extension when added to path.
 * Usage (run from a writable clone of a git repo to be be revised):
-  * `git rh [--dry-run|-n] [--skip-push|-s] --config|-c grh-config.json` - When run within a checkout of a git repo,
+  * `java -jar path/to/the.jar [--dry-run|-n] [--skip-push|-s] --config|-c grh-config.json` - When run within a checkout of a git repo,
     performs the revision process,
     and automatically forces the update and push of all created/modified tags.
 * `--config|-c CONFIG` can point to a config file via a relative path in the repository, an external path, or at
@@ -65,10 +67,10 @@ tag requires going through multiple steps.~~(actually not yet, see [this story](
     used to review changed tags locally without pushing them, then run again without this option
     to push them.  Only valid when `processor=cli`.
 * `--dry-run|-n` will print out progress but not actually make any changes, neither local nor remote.
-* `git rh` will fail and refuse to run if:
+* `java -jar path/to/the.jar` will fail and refuse to run if:
   * You are not in a git repo
   * Any other option or config file validation errors occur.
-* `git rh` will also fail **after making local changes** if it does not have permissions to force push to the remote.
+* `java -jar path/to/the.jar` will also fail **after making local changes** if it does not have permissions to force push to the remote.
 
 ## Usage
 
@@ -87,12 +89,12 @@ tag requires going through multiple steps.~~(actually not yet, see [this story](
 ### Then, run git-revisionist-historian to update the tags specified in the config file 
 
 * For `--processor cli`:
-  * `git rh --processor cli [--config path/to/grh-config.json] [other options...]`
+  * `java -jar path/to/the.jar --processor cli [--config path/to/grh-config.json] [other options...]`
 
 * For `--processor api`:
   * Export the GITHUB_PERSONAL_ACCESS_TOKEN env var to a
   [Github Personal Access Token](https://github.com/settings/tokens)
-  * `git rh --processor api --repo "owner/name" [--config path/to/grh-config.json] [other options...]`
+  * `java -jar path/to/the.jar --processor api --repo "owner/name" [--config path/to/grh-config.json] [other options...]`
 
 
 ## Config File
@@ -137,7 +139,7 @@ Config file format
 
 ## What It Does
 
-1. `git rh --config path/to/grh-config.json` - begin revision process.
+1. `java -jar path/to/the.jar --config path/to/grh-config.json` - begin revision process.
 1. Perform pre-run validations, fail if any do not pass.
 1. Fetch specified git remote to get latest state.
 1. Consecutively process all `incrementCommits` by applying specified
@@ -162,11 +164,12 @@ Config file format
 
 # Downloading
 
-* Download the [latest built releases](https://concourse.pal.pivotal.io/teams/main/pipelines/grh):
+* Download the executable jar [latest built releases](https://concourse.pal.pivotal.io/teams/main/pipelines/grh):
   * dev: **curl -O https://s3.amazonaws.com/git-revisionist-historian/com/thewoolleyweb/grh/git-revisionist-historian/dev/git-revisionist-historian-dev.jar**
   * alpha: **curl -O https://s3.amazonaws.com/git-revisionist-historian/com/thewoolleyweb/grh/git-revisionist-historian/x.y.z-rc.n/git-revisionist-historian-x.y.z-rc.n.jar**
   * final: **curl -O https://s3.amazonaws.com/git-revisionist-historian/com/thewoolleyweb/grh/git-revisionist-historian/x.y.z/git-revisionist-historian-x.y.z.jar**
-* (Coming soon): Install via Maven/Gradle (TODO: document)
+* Install via Maven/Gradle: It's published to S3 as a library which can be used directly from
+  Maven or Gradle (TODO: document)
 * (Coming soon*): Native executable
 * (Coming soon*): Concourse resource
 * (Coming soon*): Install via Homebrew
