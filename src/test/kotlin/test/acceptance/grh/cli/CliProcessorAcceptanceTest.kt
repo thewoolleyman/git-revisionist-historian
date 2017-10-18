@@ -15,7 +15,7 @@ class CliProcessorAcceptanceTest : StringSpec() {
     "works" {
       val userDir = System.getProperty("user.dir")
       val cmd = jarCmd(
-          "--processor cli"
+        "--processor cli"
       )
       val output = com.thewoolleyweb.grh.processhelper.runInDir(
         cmd,

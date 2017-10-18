@@ -8,7 +8,8 @@ import com.thewoolleyweb.grh.processhelper.run
 
 fun processWithCli(grhConfig: GrhConfig, args: Args) {
   val run = ::run
-  val log = readLog(args.remote, grhConfig.branchToRevise, run)
+  val output = ::output
+  val log = readLog(args, grhConfig.branchToRevise, run, output)
   val plan = createPlan(grhConfig, log)
-  executePlan(plan, args, run, ::output)
+  executePlan(plan, args, run, output)
 }
