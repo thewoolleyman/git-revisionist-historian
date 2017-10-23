@@ -176,3 +176,19 @@ Config file format
 * (Coming soon*): Install via rpm/dpkg
 
 (* Maybe never...)
+
+# Note about how tags are viral in git
+
+Git tags (AKA tag refs), unlike branches (AKA head refs) are viral - because
+they are all pulled/pushed at once by `git fetch/push --tags`,
+rather than just one at a time like branches.
+
+They are also ignored by default by `git fetch --prune`, unlike branches.
+
+That means any deleted tags will "show back up" as people fetch/push with the `--tags`,
+EVEN if they are deleted from the remote.
+
+To get around this, you can either re-clone the repo, or have everyone always use the
+following command when fetching tags:
+
+`git fetch --prune origin "+refs/tags/*:refs/tags/*"`
